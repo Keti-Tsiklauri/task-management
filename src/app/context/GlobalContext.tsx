@@ -5,6 +5,8 @@ import { Board } from "../types/types";
 type GlobalContextType = {
   boards: Board[];
   setBoards: React.Dispatch<React.SetStateAction<Board[]>>;
+  darkMode: boolean;
+  setDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const GlobalContext = createContext<GlobalContextType | undefined>(
@@ -13,6 +15,7 @@ export const GlobalContext = createContext<GlobalContextType | undefined>(
 
 export const GlobalProvider = ({ children }: { children: ReactNode }) => {
   const [boards, setBoards] = useState<Board[]>([]);
+  const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,7 +32,9 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <GlobalContext.Provider value={{ boards, setBoards }}>
+    <GlobalContext.Provider
+      value={{ boards, setBoards, darkMode, setDarkMode }}
+    >
       {children}
     </GlobalContext.Provider>
   );

@@ -1,10 +1,10 @@
-import BoardsList from "./components/BoardsList";
+import Navigation from "./components/navigation/Navigation";
 
 export default function Home() {
   console.log(1);
   return (
     <div>
-      <BoardsList />
+      <Navigation />
     </div>
   );
 }
