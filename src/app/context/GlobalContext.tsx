@@ -20,7 +20,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`${process.env.PUBLIC_URL}/data.json`);
+        const res = await fetch(`./data.json`);
         const data = await res.json();
         setBoards(data.boards);
       } catch (err) {

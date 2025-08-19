@@ -10,7 +10,7 @@ export default function Navigation() {
 
   const { boards, darkMode } = context;
 
-  // State to track the active board
+  console.log(boards);
 
   return (
     <div className={`flex flex-col gap-4 `}>
