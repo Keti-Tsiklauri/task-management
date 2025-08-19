@@ -38,8 +38,8 @@ export default function Navigation() {
             <Image
               src={
                 index === activeIndex
-                  ? "/images/navigation/board-active.svg"
-                  : "/images/navigation/board-inactive.svg"
+                  ? "./images/navigation/board-active.svg"
+                  : "./images/navigation/board-inactive.svg"
               }
               alt="board image"
               width={20}

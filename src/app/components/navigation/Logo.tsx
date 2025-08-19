@@ -14,8 +14,8 @@ export default function Logo() {
       <Image
         src={
           darkMode
-            ? "/images/navigation/logo-dark.svg"
-            : "/images/navigation/logo-light.svg"
+            ? "./images/navigation/logo-dark.svg"
+            : "./images/navigation/logo-light.svg"
         }
         alt="logo"
         width={200}
