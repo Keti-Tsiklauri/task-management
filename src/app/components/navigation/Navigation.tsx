@@ -13,11 +13,9 @@ export default function Navigation() {
   // State to track the active board
 
   return (
-    <div
-      className={`flex flex-col gap-4 ${darkMode ? "bg-black" : "bg-white"}`}
-    >
+    <div className={`flex flex-col gap-4 `}>
       <p
-        className={`h-[15px] font-plus-jakarta-sans font-bold text-[12px] leading-[15px] tracking-[2.4px] ml-[24px]
+        className={`pl-4 h-[15px] font-plus-jakarta-sans font-bold text-[12px] leading-[15px] tracking-[2.4px] 
         ${darkMode ? "text-black" : "text-[#828FA3]"}`}
       >
         all boards ({boards.length})
@@ -27,16 +25,16 @@ export default function Navigation() {
         <div
           key={index}
           onClick={() => setActiveIndex(index)} // set active on click
-          className={`rounded-tr-[100px] rounded-br-[100px] rounded-tl-0 rounded-bl-0 w-[240px] h-[50px] flex items-center cursor-pointer
+          className={`pl-4 rounded-tr-[100px] rounded-br-[100px] rounded-tl-0 rounded-bl-0 w-[240px] h-[50px] flex items-center cursor-pointer
             ${
               index === activeIndex
                 ? "bg-[#635FC7]"
                 : darkMode
-                ? "bg-[#20212C]"
+                ? "bg-[#2B2C37]"
                 : "bg-[#F4F7FD]"
             }`}
         >
-          <div className="flex items-center gap-3 ml-[24px]">
+          <div className="flex items-center gap-3 ">
             <Image
               src={
                 index === activeIndex

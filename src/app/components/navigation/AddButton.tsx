@@ -1,20 +1,10 @@
-"use client";
 import Image from "next/image";
-import { useContext } from "react";
-import { GlobalContext } from "@/app/context/GlobalContext";
-export default function AddButton() {
-  const context = useContext(GlobalContext);
-  if (!context) return <p>Loading...</p>;
 
-  const { darkMode } = context;
+export default function AddButton() {
   return (
-    <div className="flex w-[240px] gap-3 ml-[24px] mt-4">
+    <div className="flex w-[240px] gap-3 mt-5 pl-4">
       <Image
-        src={
-          darkMode
-            ? "/images/navigation/board-active.svg"
-            : "/images/navigation/board-inactive.svg"
-        }
+        src="/images/navigation/board-inactive.svg"
         alt="board image"
         width={20}
         height={20}
