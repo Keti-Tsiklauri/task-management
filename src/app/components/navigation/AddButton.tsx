@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function AddButton() {
   return (
-    <div className="flex w-[240px] gap-3 mt-5 pl-4">
+    <div className="flex w-[240px] gap-3 mt-5 ">
       <Image
         src="./images/navigation/board-inactive.svg"
         alt="board image"

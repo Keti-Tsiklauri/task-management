@@ -25,7 +25,7 @@ export default function Navigation() {
         <div
           key={index}
           onClick={() => setActiveIndex(index)} // set active on click
-          className={`pl-4 rounded-tr-[100px] rounded-br-[100px] rounded-tl-0 rounded-bl-0 w-[240px] h-[50px] flex items-center cursor-pointer
+          className={` pl-4 rounded-tr-[100px] rounded-br-[100px] rounded-tl-0 rounded-bl-0 w-[240px] h-[50px] flex items-center cursor-pointer
             ${
               index === activeIndex
                 ? "bg-[#635FC7]"
