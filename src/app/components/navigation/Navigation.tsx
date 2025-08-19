@@ -18,7 +18,7 @@ export default function Navigation() {
     >
       <p
         className={`h-[15px] font-plus-jakarta-sans font-bold text-[12px] leading-[15px] tracking-[2.4px] ml-[24px]
-        ${darkMode ? "text-[#828FA3]" : "text-black"}`}
+        ${darkMode ? "text-black" : "text-[#828FA3]"}`}
       >
         all boards ({boards.length})
       </p>
@@ -38,20 +38,18 @@ export default function Navigation() {
         >
           <div className="flex items-center gap-3 ml-[24px]">
             <Image
-              src="/images/navigation/board.svg"
+              src={
+                index === activeIndex
+                  ? "/images/navigation/board-active.svg"
+                  : "/images/navigation/board-inactive.svg"
+              }
               alt="board image"
               width={20}
               height={20}
             />
             <p
               className={`font-plus-jakarta-sans font-bold text-[15px] leading-[19px] h-[19px]
-                ${
-                  index === activeIndex
-                    ? "text-white"
-                    : darkMode
-                    ? "text-[#828FA3]"
-                    : "text-black"
-                }`}
+                ${index === activeIndex ? "text-white" : "text-[#828FA3]"}`}
             >
               {elem.name}
             </p>
