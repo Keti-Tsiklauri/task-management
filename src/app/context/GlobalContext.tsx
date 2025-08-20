@@ -9,6 +9,8 @@ type GlobalContextType = {
   setDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
   hide: boolean;
   setHide: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedOption: string;
+  setSelectedOption: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export const GlobalContext = createContext<GlobalContextType | undefined>(
@@ -19,6 +21,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
   const [boards, setBoards] = useState<Board[]>([]);
   const [darkMode, setDarkMode] = useState(false);
   const [hide, setHide] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("Platform Launch");
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -35,7 +38,16 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <GlobalContext.Provider
-      value={{ boards, setBoards, darkMode, setDarkMode, hide, setHide }}
+      value={{
+        boards,
+        setBoards,
+        darkMode,
+        setDarkMode,
+        hide,
+        setHide,
+        selectedOption,
+        setSelectedOption,
+      }}
     >
       {children}
     </GlobalContext.Provider>

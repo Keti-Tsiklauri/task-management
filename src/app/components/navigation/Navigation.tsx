@@ -1,19 +1,18 @@
 "use client";
 import { GlobalContext } from "@/app/context/GlobalContext";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import Image from "next/image";
 
 export default function Navigation() {
   const context = useContext(GlobalContext);
-  const [activeIndex, setActiveIndex] = useState(0); // default first board active
+
   if (!context) return <p>Loading...</p>;
 
-  const { boards, darkMode } = context;
-
-  console.log(boards);
+  // ✅ get from context
+  const { boards, darkMode, selectedOption, setSelectedOption } = context;
 
   return (
-    <div className={`flex flex-col gap-4 `}>
+    <div className="flex flex-col gap-4">
       <p
         className={`pl-4 h-[15px] font-plus-jakarta-sans font-bold text-[12px] leading-[15px] tracking-[2.4px] 
         ${darkMode ? "text-black" : "text-[#828FA3]"}`}
@@ -24,20 +23,20 @@ export default function Navigation() {
       {boards.map((elem, index) => (
         <div
           key={index}
-          onClick={() => setActiveIndex(index)} // set active on click
-          className={` pl-4 rounded-tr-[100px] rounded-br-[100px] rounded-tl-0 rounded-bl-0 w-[240px] h-[50px] flex items-center cursor-pointer
+          onClick={() => setSelectedOption(elem.name)} // ✅ set global selected option
+          className={`pl-4 rounded-tr-[100px] rounded-br-[100px] w-[240px] h-[50px] flex items-center cursor-pointer
             ${
-              index === activeIndex
+              elem.name === selectedOption
                 ? "bg-[#635FC7]"
                 : darkMode
                 ? "bg-[#2B2C37]"
                 : "bg-[#F4F7FD]"
             }`}
         >
-          <div className="flex items-center gap-3 ">
+          <div className="flex items-center gap-3">
             <Image
               src={
-                index === activeIndex
+                elem.name === selectedOption
                   ? "./images/navigation/board-active.svg"
                   : "./images/navigation/board-inactive.svg"
               }
@@ -46,8 +45,10 @@ export default function Navigation() {
               height={20}
             />
             <p
-              className={`font-plus-jakarta-sans font-bold text-[15px] leading-[19px] h-[19px]
-                ${index === activeIndex ? "text-white" : "text-[#828FA3]"}`}
+              className={`font-plus-jakarta-sans font-bold text-[15px] leading-[19px]
+                ${
+                  elem.name === selectedOption ? "text-white" : "text-[#828FA3]"
+                }`}
             >
               {elem.name}
             </p>

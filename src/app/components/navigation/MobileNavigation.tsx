@@ -6,13 +6,12 @@ import { useState, useContext } from "react";
 import { GlobalContext } from "@/app/context/GlobalContext";
 
 export default function MobileTopBar() {
-  const [selectedOption, setSelectedOption] = useState("Platform Launch");
   const [open, setOpen] = useState(false); // 👈 dropdown toggle
   const context = useContext(GlobalContext);
 
   if (!context) return <p>Loading...</p>;
 
-  const { boards } = context;
+  const { boards, selectedOption, setSelectedOption } = context;
 
   return (
     <div className="relative w-full max-w-[375px] h-[64px] bg-[#2B2C37] flex items-center px-4">
