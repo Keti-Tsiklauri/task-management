@@ -11,7 +11,7 @@ export default function HideSideBar() {
   const { hide, setHide } = context;
 
   return (
-    <div className="w-[240px]">
+    <div className="w-[240px] ">
       {hide ? (
         <div className="   w-[56px] h-[48px] bg-[#635FC7] rounded-r-[100px] flex items-center justify-center">
           <Image
@@ -24,7 +24,7 @@ export default function HideSideBar() {
           />
         </div>
       ) : (
-        <div className="w-[120px]  h-[48px] flex items-center justify-center cursor-pointer">
+        <div className="w-[120px]  h-[48px] flex items-center justify-center cursor-pointer gap-2 ml-4">
           <Image
             src="/images/navigation/hide.svg"
             alt="hide"

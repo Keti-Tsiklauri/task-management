@@ -16,18 +16,16 @@ export default function DesktopNavigation() {
 
   return (
     <div className="relative w-[260px] h-screen">
-      {/* Sidebar */}
+      {/* Sidebar container keeps fixed width */}
       <div
-        className={`absolute top-0 left-0 flex flex-col w-[260px] h-full transition-transform duration-300 ${
+        className={`flex flex-col w-full h-full transition-all duration-300 ${
           darkMode ? "bg-[#2B2C37]" : "bg-white"
-        } ${hide ? "-translate-x-full" : "translate-x-0"}`}
+        } ${hide ? "opacity-0 pointer-events-none" : "opacity-100"}`}
       >
-        {/* All elements except Navigation have padding-left */}
         <div className="pl-4 pt-4">
           <Logo />
         </div>
 
-        {/* Navigation without padding */}
         <div className="mt-10">
           <Navigation />
         </div>
@@ -36,18 +34,15 @@ export default function DesktopNavigation() {
           <AddButton />
         </div>
 
-        <div className="pl-4 mt-auto flex flex-col gap-4">
+        <div className="pl-4 mt-auto flex flex-col gap-4 mb-14">
           <ModeToggle />
-          <HideSideBar />
         </div>
       </div>
 
-      {/* Hide/Show button when sidebar is hidden */}
-      {hide && (
-        <div className="fixed bottom-4 left-0 z-50">
-          <HideSideBar />
-        </div>
-      )}
+      {/* Make HideSideBar fixed at the bottom of sidebar */}
+      <div className="absolute bottom-1">
+        <HideSideBar />
+      </div>
     </div>
   );
 }
