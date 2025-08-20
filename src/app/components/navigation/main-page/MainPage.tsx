@@ -17,7 +17,7 @@ export default function MainPage() {
   return (
     <div>
       {/* Board Columns */}
-      <div className="flex gap-6 p-6 mx-auto mt-[97px]">
+      <div className="flex gap-6 p-6 mx-auto mt-[97px] bg-[#F4F7FD] min-h-screen">
         {selectedBoard ? (
           selectedBoard.columns.map((column, colIndex) => (
             <div key={colIndex} className="w-72 shrink-0 relative">

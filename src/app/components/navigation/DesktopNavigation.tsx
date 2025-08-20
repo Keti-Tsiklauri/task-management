@@ -20,7 +20,7 @@ export default function DesktopNavigation() {
           darkMode ? "bg-[#2B2C37]" : "bg-white"
         } ${hide ? "opacity-0 pointer-events-none" : "opacity-100"}`}
       >
-        <div className="mt-10">
+        <div className="mt-7">
           <Navigation />
         </div>
 
