@@ -18,4 +18,7 @@ export type Column = {
 export type Board = {
   name: string;
   columns: Column[];
+  title: string;
+  description: string;
+  id: number;
 };

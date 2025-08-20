@@ -1,11 +1,9 @@
 "use client";
 import Navigation from "./Navigation";
-import Logo from "./Logo";
 import AddButton from "./AddButton";
 import ModeToggle from "./ModeToggle";
 import { useContext } from "react";
 import { GlobalContext } from "@/app/context/GlobalContext";
-import HideSideBar from "./HideSideBar";
 
 export default function DesktopNavigation() {
   const context = useContext(GlobalContext);
@@ -15,17 +13,13 @@ export default function DesktopNavigation() {
   const { darkMode, hide } = context;
 
   return (
-    <div className="relative w-[260px] h-screen">
-      {/* Sidebar container keeps fixed width */}
+    <div className="relative w-[260px] h-[calc(100vh-97px)] flex flex-col justify-between">
+      {/* Sidebar container */}
       <div
-        className={`flex flex-col w-full h-full transition-all duration-300 ${
+        className={`flex flex-col flex-1 w-full transition-all duration-300 ${
           darkMode ? "bg-[#2B2C37]" : "bg-white"
         } ${hide ? "opacity-0 pointer-events-none" : "opacity-100"}`}
       >
-        <div className="pl-4 pt-4">
-          <Logo />
-        </div>
-
         <div className="mt-10">
           <Navigation />
         </div>
@@ -34,15 +28,12 @@ export default function DesktopNavigation() {
           <AddButton />
         </div>
 
-        <div className="pl-4 mt-auto flex flex-col gap-4 mb-14">
+        <div className="pl-4 mt-auto flex flex-col gap-4 pb-15">
           <ModeToggle />
         </div>
       </div>
 
-      {/* Make HideSideBar fixed at the bottom of sidebar */}
-      <div className="absolute bottom-1">
-        <HideSideBar />
-      </div>
+      {/* Always visible toggle button */}
     </div>
   );
 }

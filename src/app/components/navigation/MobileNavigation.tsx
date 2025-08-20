@@ -14,7 +14,7 @@ export default function MobileTopBar() {
   const { boards, selectedOption, setSelectedOption } = context;
 
   return (
-    <div className="relative w-full max-w-[375px] h-[64px] bg-[#2B2C37] flex items-center px-4">
+    <div className="relative w-full  h-[64px] bg-[#2B2C37] flex items-center px-4">
       {/* Left Logo (3 bars) */}
       <div className="flex gap-[3px]">
         <div className="w-[6px] h-[25px] bg-[#635FC7] rounded-[2px]" />

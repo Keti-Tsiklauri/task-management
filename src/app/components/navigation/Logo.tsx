@@ -10,7 +10,7 @@ export default function Logo() {
   const { darkMode } = context;
 
   return (
-    <div className="pt-5">
+    <div>
       <Image
         src={
           darkMode
