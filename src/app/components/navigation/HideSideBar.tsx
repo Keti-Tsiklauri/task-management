@@ -15,7 +15,7 @@ export default function HideSideBar() {
       {hide ? (
         <div className="   w-[56px] h-[48px] bg-[#635FC7] rounded-r-[100px] flex items-center justify-center">
           <Image
-            src="/images/navigation/show.svg"
+            src="./images/navigation/show.svg"
             alt="show"
             width={18}
             height={16}
@@ -26,7 +26,7 @@ export default function HideSideBar() {
       ) : (
         <div className="w-[120px]  h-[48px] flex items-center justify-center cursor-pointer gap-2 ml-4">
           <Image
-            src="/images/navigation/hide.svg"
+            src="./images/navigation/hide.svg"
             alt="hide"
             width={18}
             height={16}
