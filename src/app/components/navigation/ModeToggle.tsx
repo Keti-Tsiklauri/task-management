@@ -1,27 +1,22 @@
 "use client";
-import { useState, useContext } from "react";
 import Image from "next/image";
+import { useContext } from "react";
 import { GlobalContext } from "@/app/context/GlobalContext";
 
 export default function ModeToggle() {
-  const [enabled, setEnabled] = useState(false);
   const context = useContext(GlobalContext);
   if (!context) return <p>Loading...</p>;
 
   const { setDarkMode, darkMode } = context;
 
   const handleToggle = () => {
-    setEnabled((prev) => {
-      const newValue = !prev;
-      setDarkMode(newValue); // update global dark mode
-      return newValue;
-    });
+    setDarkMode(!darkMode); // toggle global state
   };
 
   return (
     <div
       className={`w-[235px] h-[48px] left-[13px] rounded-md flex items-center justify-around ${
-        darkMode ? " bg-[#20212C]" : " bg-[#F4F7FD]"
+        darkMode ? "bg-[#20212C]" : "bg-[#F4F7FD]"
       }`}
     >
       <div className="flex justify-between w-[120px]">
@@ -39,7 +34,7 @@ export default function ModeToggle() {
           <span
             className={`absolute top-[3px] left-[3px] w-[14px] h-[14px] rounded-full bg-white 
                         transition-transform duration-300 ${
-                          enabled ? "translate-x-[20px]" : "translate-x-0"
+                          darkMode ? "translate-x-[20px]" : "translate-x-0"
                         }`}
           />
         </button>
