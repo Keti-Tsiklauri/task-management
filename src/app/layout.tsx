@@ -26,7 +26,7 @@ function LayoutContent({ children }: { children: ReactNode }) {
           <DesktopNavigation />
         </div>
       )}
-      <div className="absolute bottom-2">
+      <div className="absolute bottom-2 hidden md:block">
         <HideSideBar />
       </div>
 

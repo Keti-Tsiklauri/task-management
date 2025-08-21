@@ -4,14 +4,15 @@
 import Image from "next/image";
 import { useState, useContext } from "react";
 import { GlobalContext } from "@/app/context/GlobalContext";
-
+import Navigation from "./Navigation";
+import ModeToggle from "./ModeToggle";
 export default function MobileTopBar() {
   const [open, setOpen] = useState(false); // 👈 dropdown toggle
   const context = useContext(GlobalContext);
 
   if (!context) return <p>Loading...</p>;
 
-  const { boards, selectedOption, setSelectedOption } = context;
+  const { boards, selectedOption, darkMode } = context;
 
   return (
     <div className="relative w-full  h-[64px] bg-[#2B2C37] flex items-center px-4">
@@ -53,20 +54,31 @@ export default function MobileTopBar() {
 
       {/* Dropdown menu */}
       {open && (
-        <div className="absolute top-[64px] left-0 w-full bg-[#2B2C37] border-t border-[#3E3F4E] shadow-lg z-50">
-          {boards.map((board: { name: string }, idx: number) => (
-            <div
-              key={idx}
-              className="px-4 py-3 text-white hover:bg-[#635FC7] hover:text-white cursor-pointer font-['Plus_Jakarta_Sans']"
-              onClick={() => {
-                setSelectedOption(board.name);
-                setOpen(false);
-              }}
-            >
-              {board.name}
+        <>
+          {/* Overlay for everything except the dropdown */}
+          <div
+            className="fixed inset-0 bg-[#979797] opacity-50 z-40"
+            // clicking the overlay can close the dropdown if you want
+            onClick={() => setOpen(false)}
+          ></div>
+
+          {/* Dropdown stays on top of the overlay */}
+          <div
+            className={`absolute left-[54px] top-[80px] w-[264px] h-[322px] shadow-lg rounded-lg z-50 flex flex-col ${
+              darkMode ? "bg-[#2B2C37]" : "bg-white"
+            }`}
+            style={{
+              boxShadow: "0px 10px 20px rgba(54, 78, 126, 0.25)",
+            }}
+          >
+            <div className="mt-4">
+              <Navigation />
             </div>
-          ))}
-        </div>
+            <div className="pl-4 mt-auto mb-4">
+              <ModeToggle />
+            </div>
+          </div>
+        </>
       )}
     </div>
   );

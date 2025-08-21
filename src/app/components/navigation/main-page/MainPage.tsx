@@ -18,13 +18,13 @@ export default function MainPage() {
     <div>
       {/* Board Columns */}
       <div
-        className={`flex gap-6 p-6 mx-auto mt-[97px] ${
+        className={`flex flex-col md:gap-6 md:p-6 mx-auto md:mt-[97px] ${
           darkMode ? " bg-[#000112]" : "bg-[#F4F7FD]"
-        } min-h-screen `}
+        } min-h-screen max-w-5xl w-full`}
       >
         {selectedBoard ? (
           selectedBoard.columns.map((column, colIndex) => (
-            <div key={colIndex} className="w-72 shrink-0 relative">
+            <div key={colIndex} className="w-72 shrink-0 relative mx-auto mt-6">
               {/* Column Circle */}
               <div className="flex items-center mb-4">
                 <div

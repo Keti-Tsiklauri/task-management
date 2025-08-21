@@ -15,9 +15,9 @@ export default function Navigation() {
     <div className="flex flex-col gap-4">
       <p
         className={`pl-4 h-[15px] font-plus-jakarta-sans font-bold text-[12px] leading-[15px] tracking-[2.4px] 
-        ${darkMode ? "text-black" : "text-[#828FA3]"}`}
+        text-[#828FA3]`}
       >
-        all boards ({boards.length})
+        ALL BOARDS ({boards.length})
       </p>
 
       {boards.map((elem, index) => (
