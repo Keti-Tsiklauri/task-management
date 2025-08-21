@@ -10,14 +10,18 @@ export default function MainPage() {
 
   if (!context) return <p>Loading...</p>;
 
-  const { boards, selectedOption } = context;
+  const { boards, selectedOption, darkMode } = context;
 
   const selectedBoard = boards.find((board) => board.name === selectedOption);
 
   return (
     <div>
       {/* Board Columns */}
-      <div className="flex gap-6 p-6 mx-auto mt-[97px] bg-[#F4F7FD] min-h-screen">
+      <div
+        className={`flex gap-6 p-6 mx-auto mt-[97px] ${
+          darkMode ? " bg-[#000112]" : "bg-[#F4F7FD]"
+        } min-h-screen `}
+      >
         {selectedBoard ? (
           selectedBoard.columns.map((column, colIndex) => (
             <div key={colIndex} className="w-72 shrink-0 relative">
@@ -32,7 +36,9 @@ export default function MainPage() {
                 ></div>
 
                 {/* Column Header */}
-                <h2 className="uppercase text-gray-500 font-bold tracking-wide  ml-6">
+                <h2
+                  className={`uppercase text-gray-500 font-bold tracking-wide  ml-6`}
+                >
                   {column.name} ({column.tasks.length})
                 </h2>
               </div>
@@ -41,14 +47,18 @@ export default function MainPage() {
                 {column.tasks.map((task, taskIndex) => (
                   <div
                     key={taskIndex}
-                    className="p-4 rounded-lg shadow bg-white border"
+                    className={`p-4 rounded-lg shadow border ${
+                      darkMode ? "bg-[#2B2C37]" : "bg-[white]"
+                    }`}
                   >
-                    <h3 className="font-semibold">{task.title}</h3>
-                    {task.description && (
-                      <p className="text-sm text-gray-500">
-                        {task.description}
-                      </p>
-                    )}
+                    <h3
+                      className={`font-semibold ${
+                        darkMode ? "text-[white]" : "text-[#000112]"
+                      }`}
+                    >
+                      {task.title}
+                    </h3>
+
                     <p className="text-xs text-gray-400 mt-2">
                       {task.subtasks.filter((s) => s.isCompleted).length} of{" "}
                       {task.subtasks.length} subtasks

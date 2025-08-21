@@ -8,14 +8,22 @@ export default function TopBar() {
   if (!context) return <p>Loading...</p>;
 
   // ✅ get from context
-  const { selectedOption } = context;
+  const { selectedOption, darkMode } = context;
   return (
-    <div className="absolute  top-0 w-full  h-[97px] bg-white flex items-center  justify-between px-6 border-b border-[#E4EBFA]">
+    <div
+      className={`${
+        darkMode ? "bg-[#2B2C37] border-[#979797]" : "bg-white border-[#E4EBFA]"
+      } absolute top-0 w-full h-[97px] flex items-center justify-between px-6 border-b`}
+    >
       <div className="pl-4 pt-4">
         <Logo />
       </div>
       {/* Title */}
-      <h1 className="font-plus-jakarta-sans font-bold text-[24px] leading-[30px] text-[#000112]">
+      <h1
+        className={`font-plus-jakarta-sans font-bold text-[24px] leading-[30px] ${
+          darkMode ? "text-[white]" : " text-[#000112]"
+        }`}
+      >
         {selectedOption}
       </h1>
 
