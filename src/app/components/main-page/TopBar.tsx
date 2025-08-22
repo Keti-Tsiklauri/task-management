@@ -1,7 +1,7 @@
 "use client";
 import { useContext } from "react";
 import { GlobalContext } from "@/app/context/GlobalContext";
-import Logo from "../Logo";
+import Logo from "../navigation/Logo";
 export default function TopBar() {
   const context = useContext(GlobalContext);
 

@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import { GlobalProvider, GlobalContext } from "./context/GlobalContext";
 import "./globals.css";
 import DesktopNavigation from "./components/navigation/DesktopNavigation";
-import TopBar from "./components/navigation/main-page/TopBar";
+import TopBar from "./components/main-page/TopBar";
 import { useContext } from "react";
 import HideSideBar from "./components/navigation/HideSideBar";
 function LayoutContent({ children }: { children: ReactNode }) {

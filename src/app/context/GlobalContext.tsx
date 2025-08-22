@@ -1,6 +1,7 @@
 "use client";
-import { createContext, useState, useEffect, ReactNode } from "react";
-import { Board } from "../types/types";
+import { createContext, useEffect, ReactNode } from "react";
+import { Board, Task } from "../types/types";
+import { useLocalStorage } from "../components/hooks/useLocalStorage";
 
 type GlobalContextType = {
   boards: Board[];
@@ -11,8 +12,8 @@ type GlobalContextType = {
   setHide: React.Dispatch<React.SetStateAction<boolean>>;
   selectedOption: string;
   setSelectedOption: React.Dispatch<React.SetStateAction<string>>;
-  task: string;
-  selectedTask: React.Dispatch<React.SetStateAction<string>>;
+  selectedTask: Task | null;
+  setSelectedTask: React.Dispatch<React.SetStateAction<Task | null>>;
 };
 
 export const GlobalContext = createContext<GlobalContextType | undefined>(
@@ -20,24 +21,33 @@ export const GlobalContext = createContext<GlobalContextType | undefined>(
 );
 
 export const GlobalProvider = ({ children }: { children: ReactNode }) => {
-  const [boards, setBoards] = useState<Board[]>([]);
-  const [darkMode, setDarkMode] = useState(false);
-  const [hide, setHide] = useState(false);
-  const [selectedOption, setSelectedOption] = useState("Platform Launch");
-  const [task, selectedTask] = useState("");
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch(`./data.json`);
-        const data = await res.json();
-        setBoards(data.boards);
-      } catch (err) {
-        console.error("Error fetching data.json:", err);
-      }
-    };
+  const [boards, setBoards] = useLocalStorage<Board[]>("boards", []);
+  const [darkMode, setDarkMode] = useLocalStorage<boolean>("darkMode", false);
+  const [hide, setHide] = useLocalStorage<boolean>("hide", false);
+  const [selectedOption, setSelectedOption] = useLocalStorage<string>(
+    "selectedOption",
+    "Platform Launch"
+  );
+  const [selectedTask, setSelectedTask] = useLocalStorage<Task | null>(
+    "selectedTask",
+    null
+  );
 
-    fetchData();
-  }, []);
+  useEffect(() => {
+    if (!boards || boards.length === 0) {
+      const fetchData = async () => {
+        try {
+          const res = await fetch("./data.json");
+          const data = await res.json();
+          setBoards(data.boards);
+        } catch (err) {
+          console.error("Error fetching data.json:", err);
+        }
+      };
+
+      fetchData();
+    }
+  }, [boards, setBoards]);
 
   return (
     <GlobalContext.Provider
@@ -50,8 +60,8 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
         setHide,
         selectedOption,
         setSelectedOption,
-        task,
         selectedTask,
+        setSelectedTask,
       }}
     >
       {children}

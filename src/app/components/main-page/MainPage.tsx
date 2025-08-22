@@ -2,6 +2,8 @@
 
 import { useContext } from "react";
 import { GlobalContext } from "@/app/context/GlobalContext";
+import SelectedTask from "../modals/TaskModal";
+import TaskModal from "../modals/TaskModal";
 
 const columnColors = ["#49C4E5", "#8471F2", "#67E2AE"];
 
@@ -10,10 +12,12 @@ export default function MainPage() {
 
   if (!context) return <p>Loading...</p>;
 
-  const { boards, selectedOption, darkMode } = context;
+  const { boards, selectedOption, darkMode, selectedTask, setSelectedTask } =
+    context;
 
   const selectedBoard = boards.find((board) => board.name === selectedOption);
-
+  console.log(selectedTask);
+  console.log(1);
   return (
     <div>
       {/* Board Columns */}
@@ -42,18 +46,20 @@ export default function MainPage() {
                   {column.name} ({column.tasks.length})
                 </h2>
               </div>
+              <div className="float-top">{selectedTask && <TaskModal />}</div>
               {/* Tasks */}
               <div className="flex flex-col gap-4">
                 {column.tasks.map((task, taskIndex) => (
                   <div
                     key={taskIndex}
-                    className={`p-4 rounded-lg shadow border ${
+                    className={`p-4 rounded-lg shadow border cursor-pointer ${
                       darkMode ? "bg-[#2B2C37]" : "bg-[white]"
                     }`}
+                    onClick={() => setSelectedTask(task)} // 👈 set selected task
                   >
                     <h3
                       className={`font-semibold ${
-                        darkMode ? "text-[white]" : "text-[#000112]"
+                        darkMode ? "text-white" : "text-[#000112]"
                       }`}
                     >
                       {task.title}
