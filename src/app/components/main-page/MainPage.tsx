@@ -2,7 +2,7 @@
 
 import { useContext } from "react";
 import { GlobalContext } from "@/app/context/GlobalContext";
-import SelectedTask from "../modals/TaskModal";
+
 import TaskModal from "../modals/TaskModal";
 
 const columnColors = ["#49C4E5", "#8471F2", "#67E2AE"];

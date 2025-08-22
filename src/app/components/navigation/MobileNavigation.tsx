@@ -12,7 +12,7 @@ export default function MobileTopBar() {
 
   if (!context) return <p>Loading...</p>;
 
-  const { boards, selectedOption, darkMode } = context;
+  const { selectedOption, darkMode } = context;
 
   return (
     <div className="relative w-full  h-[64px] bg-[#2B2C37] flex items-center px-4">
