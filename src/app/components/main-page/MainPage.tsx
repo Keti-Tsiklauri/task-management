@@ -46,7 +46,6 @@ export default function MainPage() {
                   {column.name} ({column.tasks.length})
                 </h2>
               </div>
-              <div className="float-top">{selectedTask && <TaskModal />}</div>
               {/* Tasks */}
               <div className="flex flex-col gap-4">
                 {column.tasks.map((task, taskIndex) => (
@@ -80,6 +79,7 @@ export default function MainPage() {
           </p>
         )}
       </div>
+      {selectedTask && <TaskModal />}
     </div>
   );
 }

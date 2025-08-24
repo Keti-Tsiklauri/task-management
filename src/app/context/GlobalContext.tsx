@@ -34,21 +34,20 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
   );
 
   useEffect(() => {
-    if (!boards || boards.length === 0) {
-      const fetchData = async () => {
-        try {
-          const res = await fetch("./data.json");
-          const data = await res.json();
-          setBoards(data.boards);
-        } catch (err) {
-          console.error("Error fetching data.json:", err);
-        }
-      };
+    const fetchData = async () => {
+      try {
+        const res = await fetch("/data.json");
+        const data = await res.json();
+        setBoards(data.boards); // ✅ always update boards
+      } catch (err) {
+        console.error("Error fetching data.json:", err);
+      }
+    };
 
-      fetchData();
-    }
-  }, [boards, setBoards]);
+    fetchData();
+  }, [setBoards]);
 
+  console.log("swhbhjbhjbjhbhjb", boards);
   return (
     <GlobalContext.Provider
       value={{

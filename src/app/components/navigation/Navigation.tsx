@@ -10,7 +10,7 @@ export default function Navigation() {
 
   // ✅ get from context
   const { boards, darkMode, selectedOption, setSelectedOption } = context;
-
+  console.log(boards);
   return (
     <div className="flex flex-col gap-4">
       <p

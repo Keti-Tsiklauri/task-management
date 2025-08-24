@@ -64,7 +64,7 @@ export default function MobileTopBar() {
 
           {/* Dropdown stays on top of the overlay */}
           <div
-            className={`absolute left-[54px] top-[80px] w-[264px] h-[322px] shadow-lg rounded-lg z-50 flex flex-col ${
+            className={`absolute left-[54px] top-[80px] w-[264px] h-[full] shadow-lg rounded-lg z-50 flex flex-col ${
               darkMode ? "bg-[#2B2C37]" : "bg-white"
             }`}
             style={{
@@ -74,7 +74,7 @@ export default function MobileTopBar() {
             <div className="mt-4">
               <Navigation />
             </div>
-            <div className="pl-4 mt-auto mb-4">
+            <div className="pl-4 mt-3 mb-4">
               <ModeToggle />
             </div>
           </div>
