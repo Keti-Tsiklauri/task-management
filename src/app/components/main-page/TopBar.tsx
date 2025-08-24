@@ -1,8 +1,10 @@
 "use client";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { GlobalContext } from "@/app/context/GlobalContext";
 import Logo from "../navigation/Logo";
+import AddNewTask from "../modals/AddNewTask";
 export default function TopBar() {
+  const [isOpen, setIsOpen] = useState(false);
   const context = useContext(GlobalContext);
 
   if (!context) return <p>Loading...</p>;
@@ -30,7 +32,10 @@ export default function TopBar() {
       {/* Right side controls */}
       <div className="flex items-center gap-4">
         {/* Add New Task Button */}
-        <button className="flex items-center justify-center gap-2 w-[192px] h-[48px] bg-[#635FC7] rounded-[24px] opacity-25 hover:opacity-100 transition">
+        <button
+          onClick={() => setIsOpen(true)}
+          className="flex items-center justify-center gap-2 w-[192px] h-[48px] bg-[#635FC7] rounded-[24px] opacity-25 hover:opacity-100 transition"
+        >
           <span className="text-white font-plus-jakarta-sans font-bold text-[15px] leading-[19px] cursor-pointer">
             + Add New Task
           </span>
@@ -43,6 +48,11 @@ export default function TopBar() {
           <div className="w-[4.62px] h-[4.62px] rounded-full bg-[#828FA3]" />
         </div>
       </div>
+      {isOpen && (
+        <AddNewTask
+          onClose={() => setIsOpen(false)} // ✅ pass this
+        />
+      )}
     </div>
   );
 }
