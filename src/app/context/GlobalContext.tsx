@@ -33,10 +33,9 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     null
   );
   useEffect(() => {
-    const fetchData = async () => {
+    (async () => {
       try {
         if (boards.length === 0) {
-          // prevent overwriting existing boards
           const res = await fetch("/data.json");
           const data = await res.json();
           setBoards(data.boards);
@@ -44,10 +43,8 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
       } catch (err) {
         console.error("Error fetching data.json:", err);
       }
-    };
-
-    fetchData();
-  }, []); // ✅ only run once
+    })();
+  }, [boards.length, setBoards]);
 
   console.log("swhbhjbhjbjhbhjb", boards);
   return (
