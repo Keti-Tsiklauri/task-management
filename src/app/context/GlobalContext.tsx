@@ -36,7 +36,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     (async () => {
       try {
         if (boards.length === 0) {
-          const res = await fetch("/data.json");
+          const res = await fetch("./data.json");
           const data = await res.json();
           setBoards(data.boards);
         }
