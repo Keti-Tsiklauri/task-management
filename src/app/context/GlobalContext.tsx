@@ -32,20 +32,22 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     "selectedTask",
     null
   );
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch("/data.json");
-        const data = await res.json();
-        setBoards(data.boards); // ✅ always update boards
+        if (boards.length === 0) {
+          // prevent overwriting existing boards
+          const res = await fetch("/data.json");
+          const data = await res.json();
+          setBoards(data.boards);
+        }
       } catch (err) {
         console.error("Error fetching data.json:", err);
       }
     };
 
     fetchData();
-  }, [setBoards]);
+  }, []); // ✅ only run once
 
   console.log("swhbhjbhjbjhbhjb", boards);
   return (

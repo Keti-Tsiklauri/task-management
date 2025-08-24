@@ -16,7 +16,7 @@ export default function MainPage() {
     context;
 
   const selectedBoard = boards.find((board) => board.name === selectedOption);
-  console.log(selectedTask);
+  console.log(boards);
   console.log(1);
   return (
     <div>
@@ -54,7 +54,7 @@ export default function MainPage() {
                     className={`p-4 rounded-lg shadow border cursor-pointer ${
                       darkMode ? "bg-[#2B2C37]" : "bg-[white]"
                     }`}
-                    onClick={() => setSelectedTask(task)} // 👈 set selected task
+                    onClick={() => setSelectedTask(task)}
                   >
                     <h3
                       className={`font-semibold ${

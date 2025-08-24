@@ -1,54 +1,85 @@
 "use client";
 
-import { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { GlobalContext } from "@/app/context/GlobalContext";
-
+import { Task } from "@/app/types/types";
 export default function TaskModal() {
   const context = useContext(GlobalContext);
-  if (!context) return null;
 
-  const { selectedTask, setSelectedTask, darkMode } = context;
+  // Hooks must always be called at the top
+  const [localTask, setLocalTask] = useState<Task | null>(null);
 
-  if (!selectedTask) return null;
+  useEffect(() => {
+    if (context?.selectedTask) {
+      setLocalTask(context.selectedTask);
+    }
+  }, [context?.selectedTask]);
 
-  // Toggle subtask done/undone
+  if (!context || !context.selectedTask || !localTask) return null;
+
+  const {
+    boards,
+    setBoards,
+    setSelectedTask,
+    selectedTask,
+    darkMode,
+    selectedOption,
+  } = context;
+
   const toggleSubtask = (index: number) => {
-    if (!setSelectedTask) return;
-    const updatedTask = {
-      ...selectedTask,
-      subtasks: selectedTask.subtasks.map((s, i) =>
+    setLocalTask((prev) => ({
+      ...prev!,
+      subtasks: prev!.subtasks.map((s, i) =>
         i === index ? { ...s, isCompleted: !s.isCompleted } : s
       ),
-    };
-    setSelectedTask(updatedTask);
+    }));
   };
 
-  // Change task status
   const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    if (!setSelectedTask) return;
-    setSelectedTask({
-      ...selectedTask,
-      status: e.target.value,
+    if (!localTask) return;
+    setLocalTask({ ...localTask, status: e.target.value });
+  };
+  const handleSave = () => {
+    if (!localTask) return;
+
+    const updatedBoards = boards.map((board) => {
+      if (board.name !== selectedOption) return board;
+
+      // remove task from all columns
+      let newColumns = board.columns.map((col) => ({
+        ...col,
+        tasks: col.tasks.filter((t) => t.title !== selectedTask.title),
+      }));
+
+      // find the column matching the new status
+      newColumns = newColumns.map((col) =>
+        col.name === localTask.status
+          ? { ...col, tasks: [...col.tasks, localTask] }
+          : col
+      );
+
+      return { ...board, columns: newColumns };
     });
+
+    setBoards(updatedBoards); // update context
+    setSelectedTask(null); // close modal
   };
 
   return (
-    // Backdrop
     <div
       className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
-      onClick={() => setSelectedTask(null)} // click outside closes modal
+      onClick={() => setSelectedTask(null)}
     >
-      {/* Modal Card */}
       <div
         className={`w-[343px] max-h-[90vh] overflow-y-auto rounded-lg p-6 shadow-lg ${
           darkMode ? "bg-[#2B2C37] text-white" : "bg-white text-[#000112]"
         }`}
-        onClick={(e) => e.stopPropagation()} // prevent backdrop click
+        onClick={(e) => e.stopPropagation()}
       >
         {/* Title + Options */}
         <div className="flex justify-between items-start mb-4">
           <h2 className="font-bold text-lg leading-[23px]">
-            {selectedTask.title}
+            {localTask.title}
           </h2>
           <button className="flex flex-col gap-[3px]">
             <span className="w-1 h-1 rounded-full bg-[#828FA3]" />
@@ -59,18 +90,17 @@ export default function TaskModal() {
 
         {/* Description */}
         <p className="text-sm text-[#828FA3] mb-6 leading-6">
-          {selectedTask.description}
+          {localTask.description}
         </p>
 
         {/* Subtasks */}
         <div className="mb-6">
           <p className="text-xs font-bold text-[#828FA3] mb-2">
-            Subtasks (
-            {selectedTask.subtasks.filter((s) => s.isCompleted).length} of{" "}
-            {selectedTask.subtasks.length})
+            Subtasks ({localTask.subtasks.filter((s) => s.isCompleted).length}{" "}
+            of {localTask.subtasks.length})
           </p>
           <div className="flex flex-col gap-2">
-            {selectedTask.subtasks.map((s, i) => (
+            {localTask.subtasks.map((s, i) => (
               <label
                 key={i}
                 className={`flex items-center gap-3 rounded px-3 py-2 cursor-pointer select-none ${
@@ -78,14 +108,12 @@ export default function TaskModal() {
                 }`}
                 onClick={() => toggleSubtask(i)}
               >
-                {/* Checkbox */}
                 <input
                   type="checkbox"
                   checked={s.isCompleted}
                   onChange={() => toggleSubtask(i)}
                   className="w-4 h-4 accent-[#635FC7] cursor-pointer"
                 />
-                {/* Text */}
                 <span
                   className={`text-xs font-bold ${
                     s.isCompleted
@@ -103,10 +131,10 @@ export default function TaskModal() {
         </div>
 
         {/* Status Dropdown */}
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 mb-4">
           <p className="text-xs font-bold text-[#828FA3]">Current Status</p>
           <select
-            value={selectedTask.status} // ✅ Controlled by selectedTask
+            value={localTask.status}
             onChange={handleStatusChange}
             className="w-full border rounded p-2 text-sm outline-none focus:ring-2 focus:ring-[#635FC7]"
           >
@@ -115,6 +143,14 @@ export default function TaskModal() {
             <option value="Done">Done</option>
           </select>
         </div>
+
+        {/* Save Button */}
+        <button
+          onClick={handleSave}
+          className="w-full bg-[#635FC7] text-white py-2 rounded hover:bg-[#4E4AC9]"
+        >
+          Save Changes
+        </button>
       </div>
     </div>
   );
