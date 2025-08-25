@@ -3,13 +3,22 @@ import { useContext } from "react";
 import { GlobalContext } from "@/app/context/GlobalContext";
 import Logo from "../navigation/Logo";
 import AddNewTask from "../modals/AddNewTask";
+import EditDeleteBoard from "../modals/EditDeleteBoard";
+
 export default function TopBar() {
   const context = useContext(GlobalContext);
 
   if (!context) return <p>Loading...</p>;
 
-  // ✅ get from context
-  const { selectedOption, darkMode, isOpen, setIsOpen } = context;
+  const {
+    selectedOption,
+    darkMode,
+    isOpen,
+    setIsOpen,
+    openModal,
+    setOpenModal,
+  } = context;
+
   return (
     <div
       className={`${
@@ -19,17 +28,18 @@ export default function TopBar() {
       <div className="pl-4 pt-4">
         <Logo />
       </div>
+
       {/* Title */}
       <h1
         className={`font-plus-jakarta-sans font-bold text-[24px] leading-[30px] ${
-          darkMode ? "text-[white]" : " text-[#000112]"
+          darkMode ? "text-white" : " text-[#000112]"
         }`}
       >
         {selectedOption}
       </h1>
 
       {/* Right side controls */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 relative">
         {/* Add New Task Button */}
         <button
           onClick={() => setIsOpen(true)}
@@ -41,17 +51,24 @@ export default function TopBar() {
         </button>
 
         {/* Options (3 dots) */}
-        <div className="flex flex-col justify-between h-[20px] cursor-pointer">
+        <div
+          className="flex flex-col justify-between h-[20px] cursor-pointer"
+          onClick={() => setOpenModal((prev) => !prev)}
+        >
           <div className="w-[4.62px] h-[4.62px] rounded-full bg-[#828FA3]" />
           <div className="w-[4.62px] h-[4.62px] rounded-full bg-[#828FA3]" />
           <div className="w-[4.62px] h-[4.62px] rounded-full bg-[#828FA3]" />
         </div>
+
+        {/* Dropdown under 3 dots */}
+        {openModal && (
+          <div className="absolute top-[120%] right-0">
+            <EditDeleteBoard />
+          </div>
+        )}
       </div>
-      {isOpen && (
-        <AddNewTask
-          onClose={() => setIsOpen(false)} // ✅ pass this
-        />
-      )}
+
+      {isOpen && <AddNewTask onClose={() => setIsOpen(false)} />}
     </div>
   );
 }

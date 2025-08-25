@@ -16,6 +16,8 @@ type GlobalContextType = {
   setSelectedTask: React.Dispatch<React.SetStateAction<Task | null>>;
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  openModal: boolean;
+  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const GlobalContext = createContext<GlobalContextType | undefined>(
@@ -31,6 +33,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     "Platform Launch"
   );
   const [isOpen, setIsOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const [selectedTask, setSelectedTask] = useLocalStorage<Task | null>(
     "selectedTask",
     null
@@ -65,6 +68,8 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
         setSelectedTask,
         isOpen,
         setIsOpen,
+        openModal,
+        setOpenModal,
       }}
     >
       {children}

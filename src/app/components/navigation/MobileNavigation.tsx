@@ -7,13 +7,21 @@ import { GlobalContext } from "@/app/context/GlobalContext";
 import Navigation from "./Navigation";
 import ModeToggle from "./ModeToggle";
 import AddNewTask from "../modals/AddNewTask";
+import EditDeleteBoard from "../modals/EditDeleteBoard";
 export default function MobileTopBar() {
   const [open, setOpen] = useState(false); // 👈 dropdown toggle
   const context = useContext(GlobalContext);
 
   if (!context) return <p>Loading...</p>;
 
-  const { selectedOption, darkMode, isOpen, setIsOpen } = context;
+  const {
+    selectedOption,
+    darkMode,
+    isOpen,
+    setIsOpen,
+    openModal,
+    setOpenModal,
+  } = context;
 
   return (
     <div className="relative w-full  h-[64px] bg-[#2B2C37] flex items-center px-4">
@@ -23,7 +31,12 @@ export default function MobileTopBar() {
         <div className="w-[6px] h-[25px] bg-[#635FC7] rounded-[2px] opacity-75" />
         <div className="w-[6px] h-[25px] bg-[#635FC7] rounded-[2px] opacity-50" />
       </div>
-
+      {/* Dropdown under 3 dots */}
+      {openModal && (
+        <div className="absolute top-[110%] right-0 z-50">
+          <EditDeleteBoard />
+        </div>
+      )}
       {/* Title + Dropdown toggle */}
       <div
         className="flex items-center gap-1 ml-4 cursor-pointer select-none"
@@ -50,7 +63,10 @@ export default function MobileTopBar() {
       </div>
 
       {/* Options (3 dots) */}
-      <div className="ml-3 flex flex-col justify-between h-[16px]">
+      <div
+        className="ml-3 flex flex-col justify-between h-[16px]"
+        onClick={() => setOpenModal((prev) => !prev)}
+      >
         <div className="w-[3.69px] h-[3.69px] bg-[#828FA3] rounded-full" />
         <div className="w-[3.69px] h-[3.69px] bg-[#828FA3] rounded-full" />
         <div className="w-[3.69px] h-[3.69px] bg-[#828FA3] rounded-full" />
