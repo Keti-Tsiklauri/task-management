@@ -6,13 +6,14 @@ import { useState, useContext } from "react";
 import { GlobalContext } from "@/app/context/GlobalContext";
 import Navigation from "./Navigation";
 import ModeToggle from "./ModeToggle";
+import AddNewTask from "../modals/AddNewTask";
 export default function MobileTopBar() {
   const [open, setOpen] = useState(false); // 👈 dropdown toggle
   const context = useContext(GlobalContext);
 
   if (!context) return <p>Loading...</p>;
 
-  const { selectedOption, darkMode } = context;
+  const { selectedOption, darkMode, isOpen, setIsOpen } = context;
 
   return (
     <div className="relative w-full  h-[64px] bg-[#2B2C37] flex items-center px-4">
@@ -41,7 +42,10 @@ export default function MobileTopBar() {
       </div>
 
       {/* Add button */}
-      <div className="ml-auto flex items-center justify-center w-[48px] h-[32px] rounded-[24px] bg-[#635FC7] opacity-25">
+      <div
+        className="ml-auto flex items-center justify-center w-[48px] h-[32px] rounded-[24px] bg-[#635FC7] opacity-25"
+        onClick={() => setIsOpen(true)}
+      >
         <span className="text-white text-[20px] leading-none">+</span>
       </div>
 
@@ -79,6 +83,11 @@ export default function MobileTopBar() {
             </div>
           </div>
         </>
+      )}
+      {isOpen && (
+        <AddNewTask
+          onClose={() => setIsOpen(false)} // ✅ pass this
+        />
       )}
     </div>
   );

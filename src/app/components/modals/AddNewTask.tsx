@@ -92,7 +92,7 @@ export default function AddNewTask({ onClose }: AddNewTaskProps) {
     >
       <div
         ref={modalRef}
-        className="w-[480px] max-h-[90vh] overflow-auto rounded-md p-6 flex flex-col gap-6"
+        className="min-w-[343px] max-w-[480px] w-full max-h-[90vh] overflow-auto rounded-md p-6 flex flex-col gap-6"
         style={{ backgroundColor: darkMode ? "#2B2C37" : "white" }}
       >
         {/* Title */}

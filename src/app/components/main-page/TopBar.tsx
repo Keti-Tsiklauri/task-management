@@ -1,16 +1,15 @@
 "use client";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { GlobalContext } from "@/app/context/GlobalContext";
 import Logo from "../navigation/Logo";
 import AddNewTask from "../modals/AddNewTask";
 export default function TopBar() {
-  const [isOpen, setIsOpen] = useState(false);
   const context = useContext(GlobalContext);
 
   if (!context) return <p>Loading...</p>;
 
   // ✅ get from context
-  const { selectedOption, darkMode } = context;
+  const { selectedOption, darkMode, isOpen, setIsOpen } = context;
   return (
     <div
       className={`${

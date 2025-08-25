@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useEffect, ReactNode } from "react";
+import { createContext, useEffect, ReactNode, useState } from "react";
 import { Board, Task } from "../types/types";
 import { useLocalStorage } from "../components/hooks/useLocalStorage";
 
@@ -14,6 +14,8 @@ type GlobalContextType = {
   setSelectedOption: React.Dispatch<React.SetStateAction<string>>;
   selectedTask: Task | null;
   setSelectedTask: React.Dispatch<React.SetStateAction<Task | null>>;
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const GlobalContext = createContext<GlobalContextType | undefined>(
@@ -28,6 +30,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     "selectedOption",
     "Platform Launch"
   );
+  const [isOpen, setIsOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useLocalStorage<Task | null>(
     "selectedTask",
     null
@@ -60,6 +63,8 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
         setSelectedOption,
         selectedTask,
         setSelectedTask,
+        isOpen,
+        setIsOpen,
       }}
     >
       {children}
