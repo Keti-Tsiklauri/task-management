@@ -21,9 +21,9 @@ export default function MainPage() {
     <div>
       {/* Board Columns */}
       <div
-        className={`flex flex-col md:gap-6 md:p-6 mx-auto md:mt-[97px] ${
+        className={`flex flex-col xl:flex-row md:gap-6 md:p-6 mx-auto md:mt-[97px] ${
           darkMode ? "bg-[#000112]" : "bg-[#F4F7FD]"
-        } min-h-screen max-w-5xl w-full`}
+        } min-h-screen max-w-9xl w-full`}
       >
         {selectedBoard ? (
           columnNames.map((colName, colIndex) => {
