@@ -18,6 +18,8 @@ type GlobalContextType = {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   openModal: boolean;
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+  openNewBoard: boolean;
+  setOpenNewBoard: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const GlobalContext = createContext<GlobalContextType | undefined>(
@@ -34,6 +36,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
   );
   const [isOpen, setIsOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [openNewBoard, setOpenNewBoard] = useState(false);
   const [selectedTask, setSelectedTask] = useLocalStorage<Task | null>(
     "selectedTask",
     null
@@ -70,6 +73,8 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
         setIsOpen,
         openModal,
         setOpenModal,
+        openNewBoard,
+        setOpenNewBoard,
       }}
     >
       {children}

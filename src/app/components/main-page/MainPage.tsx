@@ -3,6 +3,7 @@
 import { useContext } from "react";
 import { GlobalContext } from "@/app/context/GlobalContext";
 import TaskModal from "../modals/TaskModal";
+import AddNewBoard from "../modals/AddNewBoard";
 
 const columnColors = ["#49C4E5", "#8471F2", "#67E2AE"];
 const columnNames = ["Todo", "Doing", "Done"]; // always show these columns
@@ -12,8 +13,15 @@ export default function MainPage() {
 
   if (!context) return <p>Loading...</p>;
 
-  const { boards, selectedOption, darkMode, selectedTask, setSelectedTask } =
-    context;
+  const {
+    boards,
+    selectedOption,
+    darkMode,
+    selectedTask,
+    setSelectedTask,
+    openNewBoard,
+    setOpenNewBoard,
+  } = context;
 
   const selectedBoard = boards.find((board) => board.name === selectedOption);
 
@@ -93,6 +101,7 @@ export default function MainPage() {
         )}
       </div>
       {selectedTask && <TaskModal />}
+      {openNewBoard && <AddNewBoard onClose={() => setOpenNewBoard(false)} />}
     </div>
   );
 }

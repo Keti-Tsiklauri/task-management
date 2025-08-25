@@ -17,9 +17,9 @@ export type Column = {
 };
 
 export type Board = {
+  id: number;
   name: string;
   columns: Column[];
-  title: string;
-  description: string;
-  id: number;
+  title?: string;
+  description?: string;
 };
