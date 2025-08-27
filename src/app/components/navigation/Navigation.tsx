@@ -1,9 +1,12 @@
 "use client";
 import { GlobalContext } from "@/app/context/GlobalContext";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import Image from "next/image";
 
 export default function Navigation() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
   const context = useContext(GlobalContext);
 
   if (!context) return <p>Loading...</p>;
@@ -17,7 +20,7 @@ export default function Navigation() {
         className={`pl-4 h-[15px] font-plus-jakarta-sans font-bold text-[12px] leading-[15px] tracking-[2.4px] 
         text-[#828FA3]`}
       >
-        ALL BOARDS ({boards.length})
+        ALL BOARDS ( {mounted ? boards.length : null})
       </p>
 
       {boards.map((elem, index) => (

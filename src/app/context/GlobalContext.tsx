@@ -20,6 +20,11 @@ type GlobalContextType = {
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
   openNewBoard: boolean;
   setOpenNewBoard: React.Dispatch<React.SetStateAction<boolean>>;
+
+  activeBoardId: number | null;
+  setActiveBoardId: React.Dispatch<React.SetStateAction<number | null>>;
+  showAddBoardModal: boolean;
+  setShowAddBoardModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const GlobalContext = createContext<GlobalContextType | undefined>(
@@ -41,6 +46,11 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     "selectedTask",
     null
   );
+
+  // ✅ New states
+  const [activeBoardId, setActiveBoardId] = useState<number | null>(null);
+  const [showAddBoardModal, setShowAddBoardModal] = useState(false);
+
   useEffect(() => {
     (async () => {
       try {
@@ -55,7 +65,6 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     })();
   }, [boards.length, setBoards]);
 
-  console.log("swhbhjbhjbjhbhjb", boards);
   return (
     <GlobalContext.Provider
       value={{
@@ -75,6 +84,10 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
         setOpenModal,
         openNewBoard,
         setOpenNewBoard,
+        activeBoardId,
+        setActiveBoardId,
+        showAddBoardModal,
+        setShowAddBoardModal,
       }}
     >
       {children}

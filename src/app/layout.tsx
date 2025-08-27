@@ -7,6 +7,7 @@ import DesktopNavigation from "./components/navigation/DesktopNavigation";
 import TopBar from "./components/main-page/TopBar";
 import { useContext } from "react";
 import HideSideBar from "./components/navigation/HideSideBar";
+import { ClientOnly } from "./components/ClientOnly";
 function LayoutContent({ children }: { children: ReactNode }) {
   const context = useContext(GlobalContext);
   if (!context) return null;
@@ -17,7 +18,9 @@ function LayoutContent({ children }: { children: ReactNode }) {
     <div className="flex h-screen">
       {/* TopBar */}
       <div className="hidden md:block fixed top-0 left-0 right-0 z-10">
-        <TopBar />
+        <ClientOnly>
+          <TopBar />
+        </ClientOnly>
       </div>
 
       {/* Desktop Navigation */}
