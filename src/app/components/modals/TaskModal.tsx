@@ -21,9 +21,9 @@ export default function TaskModal() {
     boards,
     setBoards,
     setSelectedTask,
-    selectedTask,
+
     darkMode,
-    selectedOption,
+    activeBoardId,
   } = context;
 
   const toggleSubtask = (index: number) => {
@@ -43,26 +43,35 @@ export default function TaskModal() {
     if (!localTask) return;
 
     const updatedBoards = boards.map((board) => {
-      if (board.name !== selectedOption) return board;
+      if (board.id !== activeBoardId) return board;
 
-      // remove task from all columns
-      let newColumns = board.columns.map((col) => ({
-        ...col,
-        tasks: col.tasks.filter((t) => t.title !== selectedTask.title),
-      }));
+      const updatedColumns = board.columns.map((col) => {
+        if (col.name === localTask.status) {
+          // update the task in-place if it already exists in this column
+          const tasks = col.tasks.map((t) =>
+            t.id === localTask.id ? localTask : t
+          );
 
-      // find the column matching the new status
-      newColumns = newColumns.map((col) =>
-        col.name === localTask.status
-          ? { ...col, tasks: [...col.tasks, localTask] }
-          : col
-      );
+          // if task not in this column yet, append it
+          const taskExists = col.tasks.some((t) => t.id === localTask.id);
+          return {
+            ...col,
+            tasks: taskExists ? tasks : [...tasks, localTask],
+          };
+        } else {
+          // remove task from other columns
+          return {
+            ...col,
+            tasks: col.tasks.filter((t) => t.id !== localTask.id),
+          };
+        }
+      });
 
-      return { ...board, columns: newColumns };
+      return { ...board, columns: updatedColumns };
     });
 
-    setBoards(updatedBoards); // update context
-    setSelectedTask(null); // close modal
+    setBoards(updatedBoards);
+    setSelectedTask(null);
   };
 
   return (
@@ -106,7 +115,6 @@ export default function TaskModal() {
                 className={`flex items-center gap-3 rounded px-3 py-2 cursor-pointer select-none ${
                   darkMode ? "bg-[#20212C]" : "bg-[#F4F7FD]"
                 }`}
-                onClick={() => toggleSubtask(i)}
               >
                 <input
                   type="checkbox"
