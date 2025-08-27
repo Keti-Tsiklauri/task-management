@@ -23,3 +23,7 @@ export type Board = {
   name: string;
   columns: Column[];
 };
+export type DeleteBoardModalProps = {
+  boardId: number | null; // if sometimes null
+  onClose: () => void;
+};

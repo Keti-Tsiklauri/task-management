@@ -21,8 +21,8 @@ type GlobalContextType = {
   openNewBoard: boolean;
   setOpenNewBoard: React.Dispatch<React.SetStateAction<boolean>>;
 
-  activeBoardId: number | null;
-  setActiveBoardId: React.Dispatch<React.SetStateAction<number | null>>;
+  activeBoardId: number;
+  setActiveBoardId: React.Dispatch<React.SetStateAction<number>>;
   showAddBoardModal: boolean;
   setShowAddBoardModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -48,7 +48,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
   );
 
   // ✅ New states
-  const [activeBoardId, setActiveBoardId] = useState<number | null>(null);
+  const [activeBoardId, setActiveBoardId] = useState<number>(0);
   const [showAddBoardModal, setShowAddBoardModal] = useState(false);
 
   useEffect(() => {

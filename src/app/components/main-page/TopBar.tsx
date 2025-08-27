@@ -1,5 +1,5 @@
 "use client";
-import { useContext } from "react";
+import { useContext, useRef, useEffect } from "react";
 import { GlobalContext } from "@/app/context/GlobalContext";
 import Logo from "../navigation/Logo";
 import AddNewTask from "../modals/AddNewTask";
@@ -8,6 +8,24 @@ import EditDeleteBoard from "../modals/EditDeleteBoard";
 export default function TopBar() {
   const context = useContext(GlobalContext);
 
+  // ✅ Always declare hooks at the top
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+  // ✅ Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setOpenModal(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [context]);
   if (!context) return <p>Loading...</p>;
 
   const {
@@ -32,7 +50,7 @@ export default function TopBar() {
       {/* Title */}
       <h1
         className={`font-plus-jakarta-sans font-bold text-[24px] leading-[30px] ${
-          darkMode ? "text-white" : " text-[#000112]"
+          darkMode ? "text-white" : "text-[#000112]"
         }`}
       >
         {selectedOption}
@@ -62,7 +80,7 @@ export default function TopBar() {
 
         {/* Dropdown under 3 dots */}
         {openModal && (
-          <div className="absolute top-[120%] right-0">
+          <div ref={dropdownRef} className="absolute top-[120%] right-0">
             <EditDeleteBoard />
           </div>
         )}
