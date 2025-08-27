@@ -1,9 +1,10 @@
 "use client";
 
 import { GlobalContext } from "@/app/context/GlobalContext";
-import { useContext, useState, useRef, useEffect } from "react";
+import { useContext, useState } from "react";
 import { X, ChevronDown } from "lucide-react";
-import { v4 as uuidv4 } from "uuid";
+
+import { Board, Column, Task, Subtask } from "@/app/types/types";
 
 type AddNewTaskProps = {
   onClose: () => void;
@@ -15,24 +16,10 @@ export default function AddNewTask({ onClose }: AddNewTaskProps) {
   const [status, setStatus] = useState("todo");
   const [subtasks, setSubtasks] = useState<string[]>(["", ""]);
 
-  const modalRef = useRef<HTMLDivElement>(null);
-
-  // Close modal if clicked outside
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        modalRef.current &&
-        !modalRef.current.contains(event.target as Node)
-      ) {
-        onClose();
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [onClose]);
   const context = useContext(GlobalContext);
   if (!context) return null;
-  const { darkMode, boards, setBoards } = context;
+  const { darkMode, boards, setBoards, activeBoardId } = context;
+
   const handleChange = (index: number, value: string) => {
     const updated = [...subtasks];
     updated[index] = value;
@@ -41,29 +28,36 @@ export default function AddNewTask({ onClose }: AddNewTaskProps) {
 
   const handleRemove = (index: number) =>
     setSubtasks(subtasks.filter((_, i) => i !== index));
+
   const handleAdd = () => setSubtasks([...subtasks, ""]);
+
+  const generateId = () => Math.floor(Math.random() * 1000000);
 
   const handleCreate = () => {
     if (!title.trim()) return;
 
-    const newTask = {
-      id: uuidv4(),
+    const newTask: Task = {
+      id: generateId(),
       title,
       description,
       status: status.charAt(0).toUpperCase() + status.slice(1),
       subtasks: subtasks
         .filter((s) => s.trim() !== "")
-        .map((s) => ({ id: uuidv4(), title: s.trim(), isCompleted: false })),
+        .map<Subtask>((s) => ({
+          id: generateId(),
+          title: s.trim(),
+          isCompleted: false,
+        })),
     };
 
-    const updatedBoards = boards.map((board) => {
-      // check if the column exists
+    const updatedBoards = boards.map((board: Board) => {
+      if (board.id !== activeBoardId) return board;
+
       const columnIndex = board.columns.findIndex(
-        (col) => col.name.toLowerCase() === status.toLowerCase()
+        (col: Column) => col.name.toLowerCase() === status.toLowerCase()
       );
 
       if (columnIndex !== -1) {
-        // column exists, add task
         const updatedColumns = [...board.columns];
         updatedColumns[columnIndex] = {
           ...updatedColumns[columnIndex],
@@ -71,9 +65,8 @@ export default function AddNewTask({ onClose }: AddNewTaskProps) {
         };
         return { ...board, columns: updatedColumns };
       } else {
-        // column doesn't exist, create it
-        const newColumn = {
-          id: uuidv4(),
+        const newColumn: Column = {
+          id: generateId(),
           name: status.charAt(0).toUpperCase() + status.slice(1),
           tasks: [newTask],
         };
@@ -89,12 +82,21 @@ export default function AddNewTask({ onClose }: AddNewTaskProps) {
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
       style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+      onClick={onClose} // Click outside closes modal
     >
       <div
-        ref={modalRef}
+        onClick={(e) => e.stopPropagation()} // Keep modal content click safe
         className="min-w-[343px] max-w-[480px] w-full max-h-[90vh] overflow-auto rounded-md p-6 flex flex-col gap-6"
         style={{ backgroundColor: darkMode ? "#2B2C37" : "white" }}
       >
+        {/* Close Icon */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-[#828FA3] hover:text-red-500"
+        >
+          <X size={20} />
+        </button>
+
         {/* Title */}
         <p
           className="font-bold text-[18px]"

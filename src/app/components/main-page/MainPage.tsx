@@ -15,7 +15,7 @@ export default function MainPage() {
 
   const {
     boards,
-    selectedOption,
+    activeBoardId,
     darkMode,
     selectedTask,
     setSelectedTask,
@@ -23,7 +23,7 @@ export default function MainPage() {
     setOpenNewBoard,
   } = context;
 
-  const selectedBoard = boards.find((board) => board.name === selectedOption);
+  const selectedBoard = boards.find((board) => board.id === activeBoardId);
 
   return (
     <div>
@@ -96,7 +96,7 @@ export default function MainPage() {
           })
         ) : (
           <p className="text-gray-500 p-6">
-            No board found for {selectedOption}
+            No board found for {activeBoardId}
           </p>
         )}
       </div>

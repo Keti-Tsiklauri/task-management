@@ -12,7 +12,7 @@ export default function Navigation() {
   if (!context) return <p>Loading...</p>;
 
   // ✅ get from context
-  const { boards, darkMode, selectedOption, setSelectedOption } = context;
+  const { boards, darkMode, activeBoardId, setActiveBoardId } = context;
   console.log(boards);
   return (
     <div className="flex flex-col gap-4">
@@ -26,10 +26,10 @@ export default function Navigation() {
       {boards.map((elem, index) => (
         <div
           key={index}
-          onClick={() => setSelectedOption(elem.name)} // ✅ set global selected option
+          onClick={() => setActiveBoardId(elem.id)} // ✅ set global selected option
           className={`pl-4 rounded-tr-[100px] rounded-br-[100px] w-[240px] h-[50px] flex items-center cursor-pointer
             ${
-              elem.name === selectedOption
+              elem.id === activeBoardId
                 ? "bg-[#635FC7]"
                 : darkMode
                 ? "bg-[#2B2C37]"
@@ -39,7 +39,7 @@ export default function Navigation() {
           <div className="flex items-center gap-3">
             <Image
               src={
-                elem.name === selectedOption
+                elem.id === activeBoardId
                   ? "./images/navigation/board-active.svg"
                   : "./images/navigation/board-inactive.svg"
               }
@@ -49,9 +49,7 @@ export default function Navigation() {
             />
             <p
               className={`font-plus-jakarta-sans font-bold text-[15px] leading-[19px]
-                ${
-                  elem.name === selectedOption ? "text-white" : "text-[#828FA3]"
-                }`}
+                ${elem.id === activeBoardId ? "text-white" : "text-[#828FA3]"}`}
             >
               {elem.name}
             </p>

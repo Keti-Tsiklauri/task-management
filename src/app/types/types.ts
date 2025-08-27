@@ -1,10 +1,11 @@
 export type Subtask = {
+  id: number;
   title: string;
   isCompleted: boolean;
 };
 
 export type Task = {
-  id: string;
+  id: number;
   title: string;
   description: string;
   status: string;
@@ -12,14 +13,13 @@ export type Task = {
 };
 
 export type Column = {
+  id: number;
   name: string;
   tasks: Task[];
 };
 
 export type Board = {
-  id: number;
+  id: number; // number now
   name: string;
   columns: Column[];
-  title?: string;
-  description?: string;
 };

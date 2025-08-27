@@ -1,64 +1,56 @@
 {
   "boards": [
     {
-      "id": "board-1",
+      "id": 1,
       "name": "Platform Launch",
       "columns": [
         {
-          "id": "col-1",
+          "id": 101,
           "name": "Todo",
           "tasks": [
             {
-              "id": "task-1",
+              "id": 1001,
               "title": "Build UI for onboarding flow",
               "description": "",
               "status": "Todo",
               "subtasks": [
-                { "id": "sub-1", "title": "Sign up page", "isCompleted": true },
-                {
-                  "id": "sub-2",
-                  "title": "Sign in page",
-                  "isCompleted": false
-                },
-                { "id": "sub-3", "title": "Welcome page", "isCompleted": false }
+                { "id": 10001, "title": "Sign up page", "isCompleted": true },
+                { "id": 10002, "title": "Sign in page", "isCompleted": false },
+                { "id": 10003, "title": "Welcome page", "isCompleted": false }
               ]
             },
             {
-              "id": "task-2",
+              "id": 1002,
               "title": "Build UI for search",
               "description": "",
               "status": "Todo",
               "subtasks": [
-                { "id": "sub-4", "title": "Search page", "isCompleted": false }
+                { "id": 10004, "title": "Search page", "isCompleted": false }
               ]
             },
             {
-              "id": "task-3",
+              "id": 1003,
               "title": "Build settings UI",
               "description": "",
               "status": "Todo",
               "subtasks": [
-                {
-                  "id": "sub-5",
-                  "title": "Account page",
-                  "isCompleted": false
-                },
-                { "id": "sub-6", "title": "Billing page", "isCompleted": false }
+                { "id": 10005, "title": "Account page", "isCompleted": false },
+                { "id": 10006, "title": "Billing page", "isCompleted": false }
               ]
             },
             {
-              "id": "task-4",
+              "id": 1004,
               "title": "QA and test all major user journeys",
               "description": "Once we feel version one is ready, we need to rigorously test it both internally and externally to identify any major gaps.",
               "status": "Todo",
               "subtasks": [
                 {
-                  "id": "sub-7",
+                  "id": 10007,
                   "title": "Internal testing",
                   "isCompleted": false
                 },
                 {
-                  "id": "sub-8",
+                  "id": 10008,
                   "title": "External testing",
                   "isCompleted": false
                 }
@@ -67,124 +59,108 @@
           ]
         },
         {
-          "id": "col-2",
+          "id": 102,
           "name": "Doing",
           "tasks": [
             {
-              "id": "task-5",
+              "id": 1005,
               "title": "Design settings and search pages",
               "description": "",
               "status": "Doing",
               "subtasks": [
                 {
-                  "id": "sub-9",
+                  "id": 10009,
                   "title": "Settings - Account page",
                   "isCompleted": true
                 },
                 {
-                  "id": "sub-10",
+                  "id": 10010,
                   "title": "Settings - Billing page",
                   "isCompleted": true
                 },
-                { "id": "sub-11", "title": "Search page", "isCompleted": false }
+                { "id": 10011, "title": "Search page", "isCompleted": false }
               ]
             },
             {
-              "id": "task-6",
+              "id": 1006,
               "title": "Add account management endpoints",
               "description": "",
               "status": "Doing",
               "subtasks": [
+                { "id": 10012, "title": "Upgrade plan", "isCompleted": true },
+                { "id": 10013, "title": "Cancel plan", "isCompleted": true },
                 {
-                  "id": "sub-12",
-                  "title": "Upgrade plan",
-                  "isCompleted": true
-                },
-                { "id": "sub-13", "title": "Cancel plan", "isCompleted": true },
-                {
-                  "id": "sub-14",
+                  "id": 10014,
                   "title": "Update payment method",
                   "isCompleted": false
                 }
               ]
             },
             {
-              "id": "task-7",
+              "id": 1007,
               "title": "Design onboarding flow",
               "description": "",
               "status": "Doing",
               "subtasks": [
-                {
-                  "id": "sub-15",
-                  "title": "Sign up page",
-                  "isCompleted": true
-                },
-                {
-                  "id": "sub-16",
-                  "title": "Sign in page",
-                  "isCompleted": false
-                },
-                {
-                  "id": "sub-17",
-                  "title": "Welcome page",
-                  "isCompleted": false
-                }
+                { "id": 10015, "title": "Sign up page", "isCompleted": true },
+                { "id": 10016, "title": "Sign in page", "isCompleted": false },
+                { "id": 10017, "title": "Welcome page", "isCompleted": false }
               ]
             },
             {
-              "id": "task-8",
-              "title": "Add search enpoints",
+              "id": 1008,
+              "title": "Add search endpoints",
               "description": "",
               "status": "Doing",
               "subtasks": [
                 {
-                  "id": "sub-18",
+                  "id": 10018,
                   "title": "Add search endpoint",
                   "isCompleted": true
                 },
                 {
-                  "id": "sub-19",
+                  "id": 10019,
                   "title": "Define search filters",
                   "isCompleted": false
                 }
               ]
             },
             {
-              "id": "task-9",
+              "id": 1009,
               "title": "Add authentication endpoints",
               "description": "",
               "status": "Doing",
               "subtasks": [
                 {
-                  "id": "sub-20",
+                  "id": 10020,
                   "title": "Define user model",
                   "isCompleted": true
                 },
                 {
-                  "id": "sub-21",
+                  "id": 10021,
                   "title": "Add auth endpoints",
                   "isCompleted": false
                 }
               ]
             },
             {
-              "id": "task-10",
+              "id": 1010,
               "title": "Research pricing points of various competitors and trial different business models",
               "description": "We know what we're planning to build for version one. Now we need to finalise the first pricing model we'll use. Keep iterating the subtasks until we have a coherent proposition.",
               "status": "Doing",
               "subtasks": [
                 {
-                  "id": "sub-22",
+                  "id": 10022,
                   "title": "Research competitor pricing and business models",
                   "isCompleted": true
                 },
                 {
-                  "id": "sub-23",
+                  "id": 10023,
                   "title": "Outline a business model that works for our solution",
                   "isCompleted": false
                 },
                 {
-                  "id": "sub-24",
+                  "id": 10024,
                   "title": "Talk to potential customers about our proposed solution and ask for fair price expectancy",
                   "isCompleted": false
                 }
@@ -193,53 +169,53 @@
           ]
         },
         {
-          "id": "col-3",
+          "id": 103,
           "name": "Done",
           "tasks": [
             {
-              "id": "task-11",
+              "id": 1011,
               "title": "Conduct 5 wireframe tests",
               "description": "Ensure the layout continues to make sense and we have strong buy-in from potential users.",
               "status": "Done",
               "subtasks": [
                 {
-                  "id": "sub-25",
+                  "id": 10025,
                   "title": "Complete 5 wireframe prototype tests",
                   "isCompleted": true
                 }
               ]
             },
             {
-              "id": "task-12",
+              "id": 1012,
               "title": "Create wireframe prototype",
-              "description": "Create a greyscale clickable wireframe prototype to test our asssumptions so far.",
+              "description": "Create a greyscale clickable wireframe prototype to test our assumptions so far.",
               "status": "Done",
               "subtasks": [
                 {
-                  "id": "sub-26",
+                  "id": 10026,
                   "title": "Create clickable wireframe prototype in Balsamiq",
                   "isCompleted": true
                 }
               ]
             },
             {
-              "id": "task-13",
+              "id": 1013,
               "title": "Review results of usability tests and iterate",
               "description": "Keep iterating through the subtasks until we're clear on the core concepts for the app.",
               "status": "Done",
               "subtasks": [
                 {
-                  "id": "sub-27",
+                  "id": 10027,
                   "title": "Meet to review notes from previous tests and plan changes",
                   "isCompleted": true
                 },
                 {
-                  "id": "sub-28",
+                  "id": 10028,
                   "title": "Make changes to paper prototypes",
                   "isCompleted": true
                 },
                 {
-                  "id": "sub-29",
+                  "id": 10029,
                   "title": "Conduct 5 usability tests",
                   "isCompleted": true
                 }
@@ -250,36 +226,28 @@
       ]
     },
     {
-      "id": "board-2",
+      "id": 2,
       "name": "Marketing Plan",
       "columns": [
         {
-          "id": "col-4",
+          "id": 104,
           "name": "Todo",
           "tasks": [
             {
-              "id": "task-14",
+              "id": 1014,
               "title": "Plan Product Hunt launch",
               "description": "",
               "status": "Todo",
               "subtasks": [
+                { "id": 10030, "title": "Find hunter", "isCompleted": false },
+                { "id": 10031, "title": "Gather assets", "isCompleted": false },
                 {
-                  "id": "sub-30",
-                  "title": "Find hunter",
-                  "isCompleted": false
-                },
-                {
-                  "id": "sub-31",
-                  "title": "Gather assets",
-                  "isCompleted": false
-                },
-                {
-                  "id": "sub-32",
+                  "id": 10032,
                   "title": "Draft product page",
                   "isCompleted": false
                 },
                 {
-                  "id": "sub-33",
+                  "id": 10033,
                   "title": "Notify customers",
                   "isCompleted": false
                 }
@@ -290,26 +258,26 @@
       ]
     },
     {
-      "id": "board-3",
+      "id": 3,
       "name": "Roadmap",
       "columns": [
         {
-          "id": "col-5",
+          "id": 105,
           "name": "Now",
           "tasks": [
             {
-              "id": "task-15",
+              "id": 1015,
               "title": "Launch version one",
               "description": "",
               "status": "Todo",
               "subtasks": [
                 {
-                  "id": "sub-34",
+                  "id": 10034,
                   "title": "Launch privately to our waitlist",
                   "isCompleted": false
                 },
                 {
-                  "id": "sub-35",
+                  "id": 10035,
                   "title": "Launch publicly on PH, HN, etc.",
                   "isCompleted": false
                 }
