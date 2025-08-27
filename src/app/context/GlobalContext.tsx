@@ -21,8 +21,8 @@ type GlobalContextType = {
   openNewBoard: boolean;
   setOpenNewBoard: React.Dispatch<React.SetStateAction<boolean>>;
 
-  activeBoardId: number;
-  setActiveBoardId: React.Dispatch<React.SetStateAction<number>>;
+  activeBoardId: number | null;
+  setActiveBoardId: React.Dispatch<React.SetStateAction<number | null>>;
   showAddBoardModal: boolean;
   setShowAddBoardModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -47,8 +47,6 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     null
   );
 
-  // ✅ New states
-  const [activeBoardId, setActiveBoardId] = useState<number>(0);
   const [showAddBoardModal, setShowAddBoardModal] = useState(false);
 
   useEffect(() => {
@@ -63,7 +61,19 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
         console.error("Error fetching data.json:", err);
       }
     })();
-  }, [boards.length, setBoards]);
+    // Only run on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // inside GlobalProvider
+  const [activeBoardId, setActiveBoardId] = useState<number | null>(null);
+
+  useEffect(() => {
+    // If boards are loaded and no activeBoardId is set, set the first board
+    if (boards.length > 0 && activeBoardId === null) {
+      setActiveBoardId(boards[0].id);
+    }
+  }, [boards, activeBoardId]);
 
   return (
     <GlobalContext.Provider

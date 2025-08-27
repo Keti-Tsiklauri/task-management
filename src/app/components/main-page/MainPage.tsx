@@ -24,7 +24,6 @@ export default function MainPage() {
   } = context;
 
   const selectedBoard = boards.find((board) => board.id === activeBoardId);
-
   return (
     <div>
       {/* Board Columns */}
@@ -35,7 +34,6 @@ export default function MainPage() {
       >
         {selectedBoard ? (
           columnNames.map((colName, colIndex) => {
-            // find the column in the board or use empty tasks
             const column = selectedBoard.columns.find(
               (c) => c.name === colName
             ) || {

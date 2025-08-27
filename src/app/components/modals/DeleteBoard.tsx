@@ -13,9 +13,25 @@ export default function DeleteBoard({
   if (!context) return null;
 
   const { boards, setBoards, activeBoardId, setOpenModal } = context;
-
   const handleDelete = () => {
-    setBoards(boards.filter((board) => board.id !== boardId));
+    // Remove the board
+    const filteredBoards = boards.filter((board) => board.id !== boardId);
+
+    // Re-index remaining boards
+    const reIndexedBoards = filteredBoards.map((board, index) => ({
+      ...board,
+      id: index,
+    }));
+
+    setBoards(reIndexedBoards);
+
+    // Set activeBoardId to first board if any boards remain
+    if (reIndexedBoards.length > 0) {
+      context.setActiveBoardId(0); // default to first board
+    } else {
+      context.setActiveBoardId(null); // if no boards remain
+    }
+
     onClose();
     setOpenModal(false);
   };
@@ -31,8 +47,9 @@ export default function DeleteBoard({
         </button>
         <h2 className="text-lg font-semibold mb-4">Delete Board?</h2>
         <p className="mb-6 text-sm text-gray-600">
-          Are you sure you want to delete &apos;{boards[activeBoardId]?.name}
-          &apos; board? This action cannot be undone.
+          Are you sure you want to delete &apos;
+          {boards[activeBoardId ?? 0]?.name}&apos; board? This action cannot be
+          undone.
         </p>
 
         <div className="flex justify-end gap-2">

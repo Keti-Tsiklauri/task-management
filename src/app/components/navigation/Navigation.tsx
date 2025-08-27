@@ -7,26 +7,35 @@ export default function Navigation() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => setMounted(true), []);
-  const context = useContext(GlobalContext);
 
+  const context = useContext(GlobalContext);
   if (!context) return <p>Loading...</p>;
 
-  // ✅ get from context
   const { boards, darkMode, activeBoardId, setActiveBoardId } = context;
-  console.log(boards);
+
+  // ✅ set first board as default if none is active
+  useEffect(() => {
+    if (
+      boards.length > 0 &&
+      (activeBoardId === null || activeBoardId === undefined)
+    ) {
+      setActiveBoardId(boards[0].id);
+    }
+  }, [boards, activeBoardId, setActiveBoardId]);
+
   return (
     <div className="flex flex-col gap-4">
       <p
         className={`pl-4 h-[15px] font-plus-jakarta-sans font-bold text-[12px] leading-[15px] tracking-[2.4px] 
         text-[#828FA3]`}
       >
-        ALL BOARDS ( {mounted ? boards.length : null})
+        ALL BOARDS ( {mounted ? boards.length : null} )
       </p>
 
       {boards.map((elem, index) => (
         <div
           key={index}
-          onClick={() => setActiveBoardId(elem.id)} // ✅ set global selected option
+          onClick={() => setActiveBoardId(elem.id)}
           className={`pl-4 rounded-tr-[100px] rounded-br-[100px] w-[240px] h-[50px] flex items-center cursor-pointer
             ${
               elem.id === activeBoardId
