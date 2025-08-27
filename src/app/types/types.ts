@@ -27,3 +27,8 @@ export type DeleteBoardModalProps = {
   boardId: number | null; // if sometimes null
   onClose: () => void;
 };
+
+export type EditBoardModalProps = {
+  boardId: number | null; // if sometimes null
+  onClose: () => void;
+};

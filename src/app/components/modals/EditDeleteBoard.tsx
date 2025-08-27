@@ -2,14 +2,15 @@
 import { useContext, useState } from "react";
 import { GlobalContext } from "@/app/context/GlobalContext";
 import DeleteBoard from "./DeleteBoard";
-
+import EditBoard from "./EditBoard";
 export default function EditDeleteBoard() {
   const context = useContext(GlobalContext);
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   if (!context) return <p>Loading...</p>;
 
-  const { darkMode, activeBoardId } = context;
+  const { darkMode, activeBoardId, setOpenModal } = context;
   return (
     <>
       <div
@@ -19,6 +20,7 @@ export default function EditDeleteBoard() {
         <p
           className="font-plus-jakarta-sans font-medium text-[13px] leading-[23px] 
           text-[#828FA3] cursor-pointer hover:text-[#635FC7] transition-colors"
+          onClick={() => setShowEditModal(true)}
         >
           Edit Board
         </p>
@@ -34,7 +36,13 @@ export default function EditDeleteBoard() {
       {showDeleteModal && (
         <DeleteBoard
           boardId={activeBoardId} // <-- make sure you have this id
-          onClose={() => setShowDeleteModal(false)}
+          onClose={() => (setShowDeleteModal(false), setOpenModal(false))}
+        />
+      )}
+      {showEditModal && (
+        <EditBoard
+          boardId={activeBoardId} // <-- make sure you have this id
+          onClose={() => (setShowEditModal(false), setOpenModal(false))}
         />
       )}
     </>
