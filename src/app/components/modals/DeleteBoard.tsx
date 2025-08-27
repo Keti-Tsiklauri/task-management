@@ -2,7 +2,7 @@
 
 import { useContext } from "react";
 import { GlobalContext } from "@/app/context/GlobalContext";
-import { X } from "lucide-react";
+
 import { DeleteBoardModalProps } from "@/app/types/types";
 
 export default function DeleteBoard({
@@ -12,7 +12,7 @@ export default function DeleteBoard({
   const context = useContext(GlobalContext);
   if (!context) return null;
 
-  const { boards, setBoards, activeBoardId, setOpenModal } = context;
+  const { boards, setBoards, activeBoardId, setOpenModal, darkMode } = context;
   const handleDelete = () => {
     // Remove the board
     const filteredBoards = boards.filter((board) => board.id !== boardId);
@@ -37,31 +37,38 @@ export default function DeleteBoard({
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black/50">
-      <div className="bg-white p-6 rounded-lg shadow-lg relative w-[400px]">
-        <button
-          onClick={onClose}
-          className="absolute top-2 right-2 text-gray-600 hover:text-black"
-        >
-          <X size={20} />
-        </button>
-        <h2 className="text-lg font-semibold mb-4">Delete Board?</h2>
-        <p className="mb-6 text-sm text-gray-600">
+    <div
+      className={`fixed inset-0 z-[1000] flex items-center justify-center ${
+        darkMode ? "bg-black/80" : "bg-black/40"
+      }`}
+    >
+      <div
+        className={`relative w-[400px] max-w-[90%] p-6 rounded-lg shadow-xl
+      ${darkMode ? "bg-[#2B2C37] text-white" : "bg-white text-[#000112]"}`}
+      >
+        {/* Close button */}
+
+        {/* Title */}
+        <h2 className="text-xl font-bold mb-4 text-[#EA5555]">Delete Board?</h2>
+
+        {/* Message */}
+        <p className="mb-6 text-sm text-gray-400">
           Are you sure you want to delete &apos;
           {boards[activeBoardId ?? 0]?.name}&apos; board? This action cannot be
           undone.
         </p>
 
-        <div className="flex justify-end gap-2">
+        {/* Buttons */}
+        <div className="flex justify-end gap-3">
           <button
             onClick={onClose}
-            className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
+            className="px-5 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition cursor-pointer"
           >
             Cancel
           </button>
           <button
             onClick={handleDelete}
-            className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+            className="px-5 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition cursor-pointer"
           >
             Delete
           </button>

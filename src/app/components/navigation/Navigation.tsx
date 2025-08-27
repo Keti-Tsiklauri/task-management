@@ -9,9 +9,6 @@ export default function Navigation() {
   useEffect(() => setMounted(true), []);
 
   const context = useContext(GlobalContext);
-  if (!context) return <p>Loading...</p>;
-
-  const { boards, darkMode, activeBoardId, setActiveBoardId } = context;
 
   // ✅ set first board as default if none is active
   useEffect(() => {
@@ -21,7 +18,9 @@ export default function Navigation() {
     ) {
       setActiveBoardId(boards[0].id);
     }
-  }, [boards, activeBoardId, setActiveBoardId]);
+  }, [context]);
+  if (!context) return <p>Loading...</p>;
+  const { boards, darkMode, activeBoardId, setActiveBoardId } = context;
 
   return (
     <div className="flex flex-col gap-4">
