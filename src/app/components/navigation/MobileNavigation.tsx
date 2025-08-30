@@ -60,7 +60,7 @@ export default function MobileTopBar() {
           {activeBoardName}
         </h1>
         <Image
-          src="/images/navigation/arrow.svg"
+          src="./images/navigation/arrow.svg"
           alt="dropdown"
           width={8}
           height={4}
