@@ -64,13 +64,31 @@ export default function TaskModal() {
     const updatedBoards = boards.map((board) => {
       if (board.id !== activeBoardId) return board;
 
-      const updatedColumns = board.columns.map((col) => {
+      // Ensure all default columns exist (Todo, Doing, Done)
+      const requiredColumns = ["Todo", "Doing", "Done"];
+      const newColumns = [...board.columns];
+
+      requiredColumns.forEach((colName, index) => {
+        if (!newColumns.find((c) => c.name === colName)) {
+          newColumns.push({
+            id: Date.now() + index, // ✅ number
+            name: colName,
+            tasks: [],
+          });
+        }
+      });
+
+      // Update tasks
+      const updatedColumns = newColumns.map((col) => {
         if (col.name === localTask.status) {
           const tasks = col.tasks.map((t) =>
             t.id === localTask.id ? localTask : t
           );
           const taskExists = col.tasks.some((t) => t.id === localTask.id);
-          return { ...col, tasks: taskExists ? tasks : [...tasks, localTask] };
+          return {
+            ...col,
+            tasks: taskExists ? tasks : [...col.tasks, localTask],
+          };
         } else {
           return {
             ...col,
