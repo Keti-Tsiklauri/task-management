@@ -92,7 +92,7 @@ export default function TaskModal() {
             {localTask.title}
           </h2>
           <button
-            className="flex flex-col gap-[3px]"
+            className="flex flex-col gap-[3px] cursor-pointer"
             onClick={() => setShowModal((prev) => !prev)}
           >
             <span className="w-1 h-1 rounded-full bg-[#828FA3]" />

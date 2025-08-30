@@ -10,14 +10,21 @@ type EditTaskProps = {
 };
 
 export default function EditTask({ onClose }: EditTaskProps) {
-  // ✅ Always declare hooks at the top
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("todo");
   const [subtasks, setSubtasks] = useState<string[]>([]);
-  const context = useContext(GlobalContext);
-  if (!context) return null; // guard clause FIRST
 
+  useEffect(() => {
+    if (!selectedTask) return;
+
+    setTitle(selectedTask.title || "");
+    setDescription(selectedTask.description || "");
+    setStatus(selectedTask.status?.toLowerCase() || "todo");
+    setSubtasks(selectedTask.subtasks.map((s) => s.title || ""));
+  }, []);
+  const context = useContext(GlobalContext);
+  if (!context) return <p>Loading...</p>;
   const {
     darkMode,
     boards,
@@ -26,7 +33,6 @@ export default function EditTask({ onClose }: EditTaskProps) {
     selectedTask,
     setSelectedTask,
   } = context;
-
   if (!selectedTask) return null;
 
   // ----------------- Handlers -----------------
@@ -97,6 +103,7 @@ export default function EditTask({ onClose }: EditTaskProps) {
     setBoards(updatedBoards);
     setSelectedTask(updatedTask);
     onClose();
+    setSelectedTask(null);
   };
 
   // ----------------- JSX -----------------
