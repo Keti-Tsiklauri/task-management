@@ -1,32 +1,53 @@
 "use client";
 
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import { GlobalContext } from "@/app/context/GlobalContext";
 import { Task } from "@/app/types/types";
 import EditDeleteTask from "./EditDeleteTask";
+
 export default function TaskModal() {
   const context = useContext(GlobalContext);
 
-  // Hooks must always be called at the top
   const [localTask, setLocalTask] = useState<Task | null>(null);
+  const [showModal, setShowModal] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (context?.selectedTask) {
-      setLocalTask(context.selectedTask);
-    }
+    if (context?.selectedTask) setLocalTask(context.selectedTask);
   }, [context?.selectedTask]);
 
-  const [showModal, setShowModal] = useState(false);
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   if (!context || !context.selectedTask || !localTask) return null;
 
-  const {
-    boards,
-    setBoards,
-    setSelectedTask,
-    selectedTask,
-    darkMode,
-    activeBoardId,
-  } = context;
+  const { boards, setBoards, setSelectedTask, darkMode, activeBoardId } =
+    context;
+
+  const statusColors: { [key: string]: string } = {
+    Todo: darkMode ? "bg-[#635FC7]" : "bg-[#635FC7]",
+    Doing: darkMode ? "bg-[#FFA500]" : "bg-[#FFA500]",
+    Done: darkMode ? "bg-[#3CB371]" : "bg-[#3CB371]",
+  };
+
+  const handleStatusChange = (status: string) => {
+    if (!localTask) return;
+    setLocalTask({ ...localTask, status });
+    setDropdownOpen(false);
+  };
 
   const toggleSubtask = (index: number) => {
     setLocalTask((prev) => ({
@@ -36,11 +57,7 @@ export default function TaskModal() {
       ),
     }));
   };
-  console.log(selectedTask);
-  const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    if (!localTask) return;
-    setLocalTask({ ...localTask, status: e.target.value });
-  };
+
   const handleSave = () => {
     if (!localTask) return;
 
@@ -49,19 +66,12 @@ export default function TaskModal() {
 
       const updatedColumns = board.columns.map((col) => {
         if (col.name === localTask.status) {
-          // update the task in-place if it already exists in this column
           const tasks = col.tasks.map((t) =>
             t.id === localTask.id ? localTask : t
           );
-
-          // if task not in this column yet, append it
           const taskExists = col.tasks.some((t) => t.id === localTask.id);
-          return {
-            ...col,
-            tasks: taskExists ? tasks : [...tasks, localTask],
-          };
+          return { ...col, tasks: taskExists ? tasks : [...tasks, localTask] };
         } else {
-          // remove task from other columns
           return {
             ...col,
             tasks: col.tasks.filter((t) => t.id !== localTask.id),
@@ -87,6 +97,7 @@ export default function TaskModal() {
         }`}
         onClick={(e) => e.stopPropagation()}
       >
+        {/* Header */}
         <div className="relative flex justify-between items-start mb-4">
           <h2 className="font-bold text-lg leading-[23px]">
             {localTask.title}
@@ -120,29 +131,21 @@ export default function TaskModal() {
             of {localTask.subtasks.length})
           </p>
           <div className="flex flex-col gap-2">
-            {localTask.subtasks.map((s, i) => (
+            {localTask.subtasks.map((subtask, idx) => (
               <label
-                key={i}
-                className={`flex items-center gap-3 rounded px-3 py-2 cursor-pointer select-none ${
-                  darkMode ? "bg-[#20212C]" : "bg-[#F4F7FD]"
+                key={subtask.id}
+                className={`flex items-center gap-2 p-2 border rounded ${
+                  darkMode ? "border-[#3E3F4E]" : "border-[#E4EBFA]"
                 }`}
               >
                 <input
                   type="checkbox"
-                  checked={s.isCompleted}
-                  onChange={() => toggleSubtask(i)}
-                  className="w-4 h-4 accent-[#635FC7] cursor-pointer"
+                  checked={subtask.isCompleted}
+                  onChange={() => toggleSubtask(idx)}
+                  className="accent-[#635FC7]"
                 />
-                <span
-                  className={`text-xs font-bold ${
-                    s.isCompleted
-                      ? "line-through text-gray-400"
-                      : darkMode
-                      ? "text-white"
-                      : "text-black"
-                  }`}
-                >
-                  {s.title}
+                <span className={subtask.isCompleted ? "line-through" : ""}>
+                  {subtask.title}
                 </span>
               </label>
             ))}
@@ -150,17 +153,48 @@ export default function TaskModal() {
         </div>
 
         {/* Status Dropdown */}
-        <div className="flex flex-col gap-2 mb-4">
-          <p className="text-xs font-bold text-[#828FA3]">Current Status</p>
-          <select
-            value={localTask.status}
-            onChange={handleStatusChange}
-            className="w-full border rounded p-2 text-sm outline-none focus:ring-2 focus:ring-[#635FC7]"
+        <div className="flex flex-col gap-2 mb-6 relative" ref={dropdownRef}>
+          <p
+            className="text-xs font-bold"
+            style={{ color: darkMode ? "#828FA3" : "#828FA3" }}
           >
-            <option value="Todo">Todo</option>
-            <option value="Doing">Doing</option>
-            <option value="Done">Done</option>
-          </select>
+            Current Status
+          </p>
+          <button
+            onClick={() => setDropdownOpen((prev) => !prev)}
+            className={`w-full p-2 rounded border text-left text-sm ${
+              darkMode
+                ? `${
+                    statusColors[localTask.status]
+                  } border-[#3E3F4E] text-white`
+                : `${
+                    statusColors[localTask.status]
+                  } border-[#E4EBFA] text-white`
+            }`}
+          >
+            {localTask.status}
+          </button>
+          {dropdownOpen && (
+            <ul
+              className={`absolute left-0 w-full mt-6 rounded border overflow-hidden z-50 ${
+                darkMode
+                  ? "bg-[#2B2C37] border-[#3E3F4E]"
+                  : "bg-white border-[#E4EBFA]"
+              }`}
+            >
+              {["Todo", "Doing", "Done"].map((statusOption) => (
+                <li
+                  key={statusOption}
+                  onClick={() => handleStatusChange(statusOption)}
+                  className={`p-2 text-sm cursor-pointer hover:${
+                    darkMode ? "bg-[#4B4C5E]" : "bg-[#635FC71A]"
+                  }`}
+                >
+                  {statusOption}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
         {/* Save Button */}
