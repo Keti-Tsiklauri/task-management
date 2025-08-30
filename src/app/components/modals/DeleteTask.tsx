@@ -16,7 +16,7 @@ export default function DeleteTask({ taskId, onClose }: DeleteTaskProps) {
     boards,
     setBoards,
     activeBoardId,
-    setOpenModal,
+    setOpenTaskModal,
     darkMode,
     setSelectedTask,
   } = context;
@@ -35,7 +35,7 @@ export default function DeleteTask({ taskId, onClose }: DeleteTaskProps) {
 
     setBoards(updatedBoards);
     onClose();
-    setOpenModal(false);
+    setOpenTaskModal((prev) => !prev);
     setSelectedTask(null);
   };
 

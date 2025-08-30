@@ -19,8 +19,8 @@ export default function MobileTopBar() {
     darkMode,
     isOpen,
     setIsOpen,
-    openModal,
-    setOpenModal,
+    openBoardModal,
+    setOpenBoardModal,
   } = context;
 
   // ✅ Get the active board’s name
@@ -37,7 +37,7 @@ export default function MobileTopBar() {
       </div>
 
       {/* Dropdown under 3 dots */}
-      {openModal && (
+      {openBoardModal && (
         <div className="absolute top-[110%] right-0 z-50">
           <EditDeleteBoard />
         </div>
@@ -75,7 +75,7 @@ export default function MobileTopBar() {
       {/* Options (3 dots) */}
       <div
         className="ml-3 flex flex-col justify-between h-[16px] cursor-pointer"
-        onClick={() => setOpenModal((prev) => !prev)}
+        onClick={() => setOpenBoardModal((prev) => !prev)}
       >
         <div className="w-[3.69px] h-[3.69px] bg-[#828FA3] rounded-full" />
         <div className="w-[3.69px] h-[3.69px] bg-[#828FA3] rounded-full" />

@@ -15,8 +15,10 @@ type GlobalContextType = {
   setSelectedTask: React.Dispatch<React.SetStateAction<Task | null>>;
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  openModal: boolean;
-  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+  openTaskModal: boolean;
+  setOpenTaskModal: React.Dispatch<React.SetStateAction<boolean>>;
+  openBoardModal: boolean;
+  setOpenBoardModal: React.Dispatch<React.SetStateAction<boolean>>;
   openNewBoard: boolean;
   setOpenNewBoard: React.Dispatch<React.SetStateAction<boolean>>;
 
@@ -36,7 +38,8 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
   const [hide, setHide] = useLocalStorage<boolean>("hide", false);
 
   const [isOpen, setIsOpen] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
+  const [openTaskModal, setOpenTaskModal] = useState(false);
+  const [openBoardModal, setOpenBoardModal] = useState(false);
   const [openNewBoard, setOpenNewBoard] = useState(false);
   const [selectedTask, setSelectedTask] = useLocalStorage<Task | null>(
     "selectedTask",
@@ -85,8 +88,10 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
         setSelectedTask,
         isOpen,
         setIsOpen,
-        openModal,
-        setOpenModal,
+        openTaskModal,
+        setOpenTaskModal,
+        openBoardModal,
+        setOpenBoardModal,
         openNewBoard,
         setOpenNewBoard,
         activeBoardId,

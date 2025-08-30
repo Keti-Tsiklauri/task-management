@@ -10,22 +10,6 @@ export default function TopBar() {
 
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
-  // ✅ Close dropdown when clicking outside
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setOpenModal(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
   if (!context) return <p>Loading...</p>;
 
   const {
@@ -34,8 +18,8 @@ export default function TopBar() {
     darkMode,
     isOpen,
     setIsOpen,
-    openModal,
-    setOpenModal,
+    openBoardModal,
+    setOpenBoardModal,
   } = context;
   // ✅ Get the active board name
   const activeBoardName =
@@ -76,7 +60,7 @@ export default function TopBar() {
         {/* Options (3 dots) */}
         <div
           className="flex flex-col justify-between h-[20px] cursor-pointer"
-          onClick={() => setOpenModal((prev) => !prev)}
+          onClick={() => setOpenBoardModal((prev) => !prev)}
         >
           <div className="w-[4.62px] h-[4.62px] rounded-full bg-[#828FA3]" />
           <div className="w-[4.62px] h-[4.62px] rounded-full bg-[#828FA3]" />
@@ -84,7 +68,7 @@ export default function TopBar() {
         </div>
 
         {/* Dropdown under 3 dots */}
-        {openModal && (
+        {openBoardModal && (
           <div ref={dropdownRef} className="absolute top-[120%] right-0">
             <EditDeleteBoard />
           </div>

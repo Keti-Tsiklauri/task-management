@@ -10,7 +10,7 @@ export default function EditDeleteBoard() {
   const [showEditModal, setShowEditModal] = useState(false);
   if (!context) return <p>Loading...</p>;
 
-  const { darkMode, activeBoardId, setOpenModal } = context;
+  const { darkMode, activeBoardId } = context;
   return (
     <>
       <div
@@ -36,13 +36,13 @@ export default function EditDeleteBoard() {
       {showDeleteModal && (
         <DeleteBoard
           boardId={activeBoardId} // <-- make sure you have this id
-          onClose={() => (setShowDeleteModal(false), setOpenModal(false))}
+          onClose={() => setShowDeleteModal(false)}
         />
       )}
       {showEditModal && (
         <EditBoard
           boardId={activeBoardId} // <-- make sure you have this id
-          onClose={() => (setShowEditModal(false), setOpenModal(false))}
+          onClose={() => setShowEditModal(false)}
         />
       )}
     </>

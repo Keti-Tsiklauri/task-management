@@ -13,7 +13,7 @@ export default function EditDeleteTask() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   if (!context) return <p>Loading...</p>;
 
-  const { darkMode, selectedTask, setOpenModal } = context;
+  const { darkMode, selectedTask, setOpenTaskModal } = context;
   if (!selectedTask) return null; // Don't render if no task is selected
 
   return (
@@ -43,7 +43,7 @@ export default function EditDeleteTask() {
         <EditTask
           onClose={() => {
             setShowEditModal(false);
-            setOpenModal(false);
+            setOpenTaskModal((prev) => !prev);
           }}
         />
       )}
@@ -54,7 +54,7 @@ export default function EditDeleteTask() {
           taskId={selectedTask.id}
           onClose={() => {
             setShowDeleteModal(false);
-            setOpenModal(false);
+            setOpenTaskModal((prev) => !prev);
           }}
         />
       )}

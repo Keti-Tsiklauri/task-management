@@ -12,7 +12,8 @@ export default function DeleteBoard({
   const context = useContext(GlobalContext);
   if (!context) return null;
 
-  const { boards, setBoards, activeBoardId, setOpenModal, darkMode } = context;
+  const { boards, setBoards, activeBoardId, setOpenBoardModal, darkMode } =
+    context;
   const handleDelete = () => {
     // Remove the board
     const filteredBoards = boards.filter((board) => board.id !== boardId);
@@ -33,7 +34,6 @@ export default function DeleteBoard({
     }
 
     onClose();
-    setOpenModal(false);
   };
 
   return (
