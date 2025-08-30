@@ -3,6 +3,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { GlobalContext } from "@/app/context/GlobalContext";
 import { Task } from "@/app/types/types";
+import EditDeleteTask from "./EditDeleteTask";
 export default function TaskModal() {
   const context = useContext(GlobalContext);
 
@@ -15,13 +16,14 @@ export default function TaskModal() {
     }
   }, [context?.selectedTask]);
 
+  const [showModal, setShowModal] = useState(false);
   if (!context || !context.selectedTask || !localTask) return null;
 
   const {
     boards,
     setBoards,
     setSelectedTask,
-
+    selectedTask,
     darkMode,
     activeBoardId,
   } = context;
@@ -34,7 +36,7 @@ export default function TaskModal() {
       ),
     }));
   };
-
+  console.log(selectedTask);
   const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (!localTask) return;
     setLocalTask({ ...localTask, status: e.target.value });
@@ -85,16 +87,25 @@ export default function TaskModal() {
         }`}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Title + Options */}
-        <div className="flex justify-between items-start mb-4">
+        <div className="relative flex justify-between items-start mb-4">
           <h2 className="font-bold text-lg leading-[23px]">
             {localTask.title}
           </h2>
-          <button className="flex flex-col gap-[3px]">
+          <button
+            className="flex flex-col gap-[3px]"
+            onClick={() => setShowModal((prev) => !prev)}
+          >
             <span className="w-1 h-1 rounded-full bg-[#828FA3]" />
             <span className="w-1 h-1 rounded-full bg-[#828FA3]" />
             <span className="w-1 h-1 rounded-full bg-[#828FA3]" />
           </button>
+
+          {/* Dropdown / EditDeleteTask */}
+          {showModal && (
+            <div className="absolute top-full right-0 z-50 mt-2">
+              <EditDeleteTask />
+            </div>
+          )}
         </div>
 
         {/* Description */}

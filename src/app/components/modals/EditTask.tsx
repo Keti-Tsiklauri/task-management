@@ -1,25 +1,35 @@
 "use client";
 
 import { GlobalContext } from "@/app/context/GlobalContext";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { X, ChevronDown } from "lucide-react";
-
 import { Board, Column, Task, Subtask } from "@/app/types/types";
 
-type AddNewTaskProps = {
+type EditTaskProps = {
   onClose: () => void;
 };
 
-export default function AddNewTask({ onClose }: AddNewTaskProps) {
+export default function EditTask({ onClose }: EditTaskProps) {
+  // ✅ Always declare hooks at the top
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("todo");
-  const [subtasks, setSubtasks] = useState<string[]>(["", ""]);
-
+  const [subtasks, setSubtasks] = useState<string[]>([]);
   const context = useContext(GlobalContext);
-  if (!context) return null;
-  const { darkMode, boards, setBoards, activeBoardId } = context;
+  if (!context) return null; // guard clause FIRST
 
+  const {
+    darkMode,
+    boards,
+    setBoards,
+    activeBoardId,
+    selectedTask,
+    setSelectedTask,
+  } = context;
+
+  if (!selectedTask) return null;
+
+  // ----------------- Handlers -----------------
   const handleChange = (index: number, value: string) => {
     const updated = [...subtasks];
     updated[index] = value;
@@ -31,81 +41,93 @@ export default function AddNewTask({ onClose }: AddNewTaskProps) {
 
   const handleAdd = () => setSubtasks([...subtasks, ""]);
 
-  const generateId = () => Math.floor(Math.random() * 1000000);
-
-  const handleCreate = () => {
+  const handleSave = () => {
     if (!title.trim()) return;
 
-    const newTask: Task = {
-      id: generateId(),
+    const updatedTask: Task = {
+      ...selectedTask,
       title,
       description,
       status: status.charAt(0).toUpperCase() + status.slice(1),
       subtasks: subtasks
         .filter((s) => s.trim() !== "")
-        .map<Subtask>((s) => ({
-          id: generateId(),
+        .map<Subtask>((s, idx) => ({
+          id:
+            selectedTask.subtasks[idx]?.id ||
+            Math.floor(Math.random() * 1000000),
           title: s.trim(),
-          isCompleted: false,
+          isCompleted: selectedTask.subtasks[idx]?.isCompleted || false,
         })),
     };
 
     const updatedBoards = boards.map((board: Board) => {
       if (board.id !== activeBoardId) return board;
 
-      const columnIndex = board.columns.findIndex(
-        (col: Column) => col.name.toLowerCase() === status.toLowerCase()
-      );
+      const updatedColumns = board.columns.map((col: Column) => {
+        // remove from old column if status changed
+        if (
+          col.tasks.some((task) => task.id === selectedTask.id) &&
+          col.name.toLowerCase() !== status.toLowerCase()
+        ) {
+          return {
+            ...col,
+            tasks: col.tasks.filter((t) => t.id !== selectedTask.id),
+          };
+        }
 
-      if (columnIndex !== -1) {
-        const updatedColumns = [...board.columns];
-        updatedColumns[columnIndex] = {
-          ...updatedColumns[columnIndex],
-          tasks: [...updatedColumns[columnIndex].tasks, newTask],
-        };
-        return { ...board, columns: updatedColumns };
-      } else {
-        const newColumn: Column = {
-          id: generateId(),
-          name: status.charAt(0).toUpperCase() + status.slice(1),
-          tasks: [newTask],
-        };
-        return { ...board, columns: [...board.columns, newColumn] };
-      }
+        // add/update in new column
+        if (col.name.toLowerCase() === status.toLowerCase()) {
+          const existing = col.tasks.some((t) => t.id === selectedTask.id);
+          return {
+            ...col,
+            tasks: existing
+              ? col.tasks.map((t) =>
+                  t.id === selectedTask.id ? updatedTask : t
+                )
+              : [...col.tasks, updatedTask],
+          };
+        }
+
+        return col;
+      });
+
+      return { ...board, columns: updatedColumns };
     });
 
     setBoards(updatedBoards);
+    setSelectedTask(updatedTask);
     onClose();
   };
 
+  // ----------------- JSX -----------------
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
       style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
-      onClick={onClose} // Click outside closes modal
+      onClick={onClose}
     >
       <div
-        onClick={(e) => e.stopPropagation()} // Keep modal content click safe
+        onClick={(e) => e.stopPropagation()}
         className="min-w-[343px] max-w-[480px] w-full max-h-[90vh] overflow-auto rounded-md p-6 flex flex-col gap-6"
         style={{ backgroundColor: darkMode ? "#2B2C37" : "white" }}
       >
-        {/* Title */}
+        {/* Header */}
         <div className="flex justify-between">
           <p
             className="font-bold text-[18px]"
             style={{ color: darkMode ? "white" : "black" }}
           >
-            Add New Task
+            Edit Task
           </p>
-          {/* Close Icon */}
           <button
             onClick={onClose}
-            className=" text-[#828FA3] hover:text-red-500 cursor-pointer"
+            className="text-[#828FA3] hover:text-red-500 cursor-pointer"
           >
             <X size={20} />
           </button>
         </div>
-        {/* Title Input */}
+
+        {/* Title */}
         <div className="w-full flex flex-col gap-2">
           <label
             className="font-bold text-[12px]"
@@ -116,8 +138,7 @@ export default function AddNewTask({ onClose }: AddNewTaskProps) {
           <input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="e.g. Take coffee break"
-            className="w-full h-[40px] border border-[rgba(130,143,163,0.25)] rounded-[4px] px-3 text-[13px] leading-[23px] font-medium"
+            className="w-full h-[40px] border rounded-[4px] px-3 text-[13px]"
             style={{
               backgroundColor: darkMode ? "#2B2C37" : "white",
               color: darkMode ? "white" : "black",
@@ -136,8 +157,7 @@ export default function AddNewTask({ onClose }: AddNewTaskProps) {
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="e.g. It’s always good to take a break..."
-            className="w-full min-h-[100px] border border-[rgba(130,143,163,0.25)] rounded-[4px] px-3 py-2 text-[13px] leading-[23px] font-medium resize-none"
+            className="w-full min-h-[100px] border rounded-[4px] px-3 py-2 text-[13px]"
             style={{
               backgroundColor: darkMode ? "#2B2C37" : "white",
               color: darkMode ? "white" : "black",
@@ -156,15 +176,14 @@ export default function AddNewTask({ onClose }: AddNewTaskProps) {
           {subtasks.map((subtask, index) => (
             <div
               key={index}
-              className="flex items-center gap-2 w-full h-[40px] border border-[rgba(130,143,163,0.25)] rounded-[4px] px-3"
+              className="flex items-center gap-2 w-full h-[40px] border rounded-[4px] px-3"
               style={{ backgroundColor: darkMode ? "#2B2C37" : "white" }}
             >
               <input
                 type="text"
                 value={subtask}
                 onChange={(e) => handleChange(index, e.target.value)}
-                placeholder="e.g. Make coffee"
-                className="flex-1 bg-transparent outline-none text-[13px] leading-[23px]"
+                className="flex-1 bg-transparent outline-none text-[13px]"
                 style={{ color: darkMode ? "white" : "black" }}
               />
               <button
@@ -177,7 +196,7 @@ export default function AddNewTask({ onClose }: AddNewTaskProps) {
           ))}
           <button
             onClick={handleAdd}
-            className="w-full h-[40px] rounded-md bg-[#635FC71A] text-[#635FC7] font-bold text-[13px] leading-[23px] hover:bg-[#635FC733]"
+            className="w-full h-[40px] rounded-md bg-[#635FC71A] text-[#635FC7] font-bold text-[13px] hover:bg-[#635FC733]"
           >
             + Add New Subtask
           </button>
@@ -194,11 +213,10 @@ export default function AddNewTask({ onClose }: AddNewTaskProps) {
           <select
             value={status}
             onChange={(e) => setStatus(e.target.value)}
-            className="w-full h-[40px] px-3 rounded-[4px] border font-medium text-[13px] leading-[23px] appearance-none pr-8"
+            className="w-full h-[40px] px-3 rounded-[4px] border pr-8 text-[13px]"
             style={{
               backgroundColor: darkMode ? "#2B2C37" : "white",
               color: darkMode ? "white" : "black",
-              borderColor: darkMode ? "rgba(130,143,163,0.25)" : "#828FA3",
             }}
           >
             <option value="todo">Todo</option>
@@ -211,12 +229,12 @@ export default function AddNewTask({ onClose }: AddNewTaskProps) {
           />
         </div>
 
-        {/* Submit */}
+        {/* Save Button */}
         <button
-          onClick={handleCreate}
+          onClick={handleSave}
           className="w-full h-[40px] bg-[#635FC7] rounded-[20px] flex items-center justify-center text-white text-[13px] font-bold hover:bg-[#6f6bda]"
         >
-          Create Task
+          Save Changes
         </button>
       </div>
     </div>
