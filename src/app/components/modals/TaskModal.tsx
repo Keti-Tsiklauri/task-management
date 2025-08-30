@@ -38,8 +38,8 @@ export default function TaskModal() {
     context;
 
   const statusColors: { [key: string]: string } = {
-    Todo: darkMode ? "bg-[#635FC7]" : "bg-[#635FC7]",
-    Doing: darkMode ? "bg-[#FFA500]" : "bg-[#FFA500]",
+    Todo: darkMode ? "bg-[#49C4E5]" : "bg-[#49C4E5]",
+    Doing: darkMode ? "bg-[#635FC7]" : "bg-[#635FC7]",
     Done: darkMode ? "bg-[#3CB371]" : "bg-[#3CB371]",
   };
 
