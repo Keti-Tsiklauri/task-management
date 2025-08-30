@@ -13,7 +13,7 @@ function LayoutContent({ children }: { children: ReactNode }) {
   if (!context) return null;
 
   const { hide, activeBoardId } = context;
-  console.log(111111111111111, activeBoardId);
+
   return (
     <div className="flex h-screen">
       {/* TopBar */}
