@@ -8,8 +8,8 @@ import EditDeleteBoard from "../modals/EditDeleteBoard";
 export default function TopBar() {
   const context = useContext(GlobalContext);
 
-  // ✅ Always declare hooks at the top
   const dropdownRef = useRef<HTMLDivElement | null>(null);
+
   // ✅ Close dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -20,22 +20,26 @@ export default function TopBar() {
         setOpenModal(false);
       }
     }
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [context]);
+  }, []);
+
   if (!context) return <p>Loading...</p>;
 
   const {
-    selectedOption,
+    boards,
+    activeBoardId,
     darkMode,
     isOpen,
     setIsOpen,
     openModal,
     setOpenModal,
   } = context;
+  // ✅ Get the active board name
+  const activeBoardName =
+    boards.find((board) => board.id === activeBoardId)?.name || "No Board";
 
   return (
     <div
@@ -53,7 +57,7 @@ export default function TopBar() {
           darkMode ? "text-white" : "text-[#000112]"
         }`}
       >
-        {selectedOption}
+        {activeBoardName}
       </h1>
 
       {/* Right side controls */}
@@ -62,6 +66,7 @@ export default function TopBar() {
         <button
           onClick={() => setIsOpen(true)}
           className="flex items-center justify-center gap-2 w-[192px] h-[48px] bg-[#635FC7] rounded-[24px] opacity-25 hover:opacity-100 transition"
+          disabled={!activeBoardId} // ✅ disable if no board is selected
         >
           <span className="text-white font-plus-jakarta-sans font-bold text-[15px] leading-[19px] cursor-pointer">
             + Add New Task

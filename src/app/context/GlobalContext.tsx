@@ -10,8 +10,7 @@ type GlobalContextType = {
   setDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
   hide: boolean;
   setHide: React.Dispatch<React.SetStateAction<boolean>>;
-  selectedOption: string;
-  setSelectedOption: React.Dispatch<React.SetStateAction<string>>;
+
   selectedTask: Task | null;
   setSelectedTask: React.Dispatch<React.SetStateAction<Task | null>>;
   isOpen: boolean;
@@ -35,10 +34,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
   const [boards, setBoards] = useLocalStorage<Board[]>("boards", []);
   const [darkMode, setDarkMode] = useLocalStorage<boolean>("darkMode", false);
   const [hide, setHide] = useLocalStorage<boolean>("hide", false);
-  const [selectedOption, setSelectedOption] = useLocalStorage<string>(
-    "selectedOption",
-    "Platform Launch"
-  );
+
   const [isOpen, setIsOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [openNewBoard, setOpenNewBoard] = useState(false);
@@ -84,8 +80,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
         setDarkMode,
         hide,
         setHide,
-        selectedOption,
-        setSelectedOption,
+
         selectedTask,
         setSelectedTask,
         isOpen,

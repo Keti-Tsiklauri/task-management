@@ -12,8 +12,8 @@ function LayoutContent({ children }: { children: ReactNode }) {
   const context = useContext(GlobalContext);
   if (!context) return null;
 
-  const { hide } = context;
-
+  const { hide, activeBoardId } = context;
+  console.log(111111111111111, activeBoardId);
   return (
     <div className="flex h-screen">
       {/* TopBar */}
