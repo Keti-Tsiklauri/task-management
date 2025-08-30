@@ -1,4 +1,5 @@
 "use client";
+
 import Image from "next/image";
 import { useState, useContext } from "react";
 import { GlobalContext } from "@/app/context/GlobalContext";
@@ -8,7 +9,7 @@ import AddNewTask from "../modals/AddNewTask";
 import EditDeleteBoard from "../modals/EditDeleteBoard";
 
 export default function MobileTopBar() {
-  const [open, setOpen] = useState(false); // 👈 dropdown toggle
+  const [open, setOpen] = useState(false);
   const context = useContext(GlobalContext);
 
   if (!context) return <p>Loading...</p>;
@@ -23,12 +24,15 @@ export default function MobileTopBar() {
     setOpenBoardModal,
   } = context;
 
-  // ✅ Get the active board’s name
   const activeBoardName =
     boards.find((board) => board.id === activeBoardId)?.name || "No Board";
 
   return (
-    <div className="relative w-full h-[64px] bg-[#2B2C37] flex items-center px-4">
+    <div
+      className={`relative w-full h-[64px] flex items-center px-4 ${
+        darkMode ? "bg-[#2B2C37]" : "bg-white"
+      }`}
+    >
       {/* Left Logo (3 bars) */}
       <div className="flex gap-[3px]">
         <div className="w-[6px] h-[25px] bg-[#635FC7] rounded-[2px]" />
@@ -48,7 +52,11 @@ export default function MobileTopBar() {
         className="flex items-center gap-1 ml-4 cursor-pointer select-none"
         onClick={() => setOpen((prev) => !prev)}
       >
-        <h1 className="font-['Plus_Jakarta_Sans'] font-bold text-[18px] leading-[23px] text-white">
+        <h1
+          className={`font-['Plus_Jakarta_Sans'] font-bold text-[18px] leading-[23px] ${
+            darkMode ? "text-white" : "text-[#000112]"
+          }`}
+        >
           {activeBoardName}
         </h1>
         <Image
@@ -77,9 +85,21 @@ export default function MobileTopBar() {
         className="ml-3 flex flex-col justify-between h-[16px] cursor-pointer"
         onClick={() => setOpenBoardModal((prev) => !prev)}
       >
-        <div className="w-[3.69px] h-[3.69px] bg-[#828FA3] rounded-full" />
-        <div className="w-[3.69px] h-[3.69px] bg-[#828FA3] rounded-full" />
-        <div className="w-[3.69px] h-[3.69px] bg-[#828FA3] rounded-full" />
+        <div
+          className={`w-[3.69px] h-[3.69px] rounded-full ${
+            darkMode ? "bg-gray-400" : "bg-[#828FA3]"
+          }`}
+        />
+        <div
+          className={`w-[3.69px] h-[3.69px] rounded-full ${
+            darkMode ? "bg-gray-400" : "bg-[#828FA3]"
+          }`}
+        />
+        <div
+          className={`w-[3.69px] h-[3.69px] rounded-full ${
+            darkMode ? "bg-gray-400" : "bg-[#828FA3]"
+          }`}
+        />
       </div>
 
       {/* Dropdown menu */}
@@ -87,7 +107,9 @@ export default function MobileTopBar() {
         <>
           {/* Overlay */}
           <div
-            className="fixed inset-0 bg-[#979797] opacity-50 z-40"
+            className={`fixed inset-0 ${
+              darkMode ? "bg-black/50" : "bg-[#979797]/50"
+            } z-40`}
             onClick={() => setOpen(false)}
           ></div>
 
