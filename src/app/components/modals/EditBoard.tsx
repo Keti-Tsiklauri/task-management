@@ -19,7 +19,7 @@ export default function EditBoard({ boardId, onClose }: EditBoardModalProps) {
     }
   }, []);
   if (!context) return null;
-  const { boards, setBoards, darkMode } = context;
+  const { boards, setBoards, darkMode, setOpenBoardModal } = context;
 
   const handleSave = () => {
     if (!boardName.trim()) return;
@@ -29,6 +29,7 @@ export default function EditBoard({ boardId, onClose }: EditBoardModalProps) {
     );
 
     setBoards(updatedBoards);
+    setOpenBoardModal(false);
     onClose();
   };
 

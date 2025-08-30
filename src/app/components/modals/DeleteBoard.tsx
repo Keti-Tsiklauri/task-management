@@ -32,7 +32,7 @@ export default function DeleteBoard({
     } else {
       context.setActiveBoardId(null); // if no boards remain
     }
-
+    setOpenBoardModal(false);
     onClose();
   };
 
